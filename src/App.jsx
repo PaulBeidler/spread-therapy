@@ -366,10 +366,10 @@ function Quiz({onBack}){
 function LearnHub({onSelectModule}){
   const modules=[
     {id:"getting-started",label:"Before You Begin",desc:"Requirements, margin, approval levels.",color:T.blue,icon:"◈",time:"5 min",built:false},
-    {id:"stocks",label:"Stocks",desc:"Evaluate, buy, hold. DCA, tax law.",color:T.green,icon:"◉",time:"8 min",built:false},
+    {id:"stocks",label:"Stocks",desc:"Evaluate, buy, hold. DCA, tax law.",color:T.green,icon:"◉",time:"8 min",built:true},
     {id:"options",label:"Options",desc:"Puts, calls, American vs European style.",color:T.teal,icon:"◎",time:"10 min",built:true},
     {id:"spreads",label:"Spreads",desc:"Bull/bear spreads, strike distance, IV.",color:T.gold,icon:"◑",time:"12 min",built:true},
-    {id:"together",label:"How It All Works Together",desc:"Stocks + covered calls + spreads simultaneously.",color:T.purple,icon:"◕",time:"10 min",built:false},
+    {id:"together",label:"How It All Works Together",desc:"Stocks + covered calls + spreads simultaneously.",color:T.purple,icon:"◕",time:"10 min",built:true},
     {id:"margin",label:"Margin & Capital Efficiency",desc:"Why spreads use less collateral.",color:T.orange,icon:"●",time:"8 min",built:true},
     {id:"pricing",label:"Pricing & Control",desc:"What your position is worth. How to change it.",color:T.amber,icon:"◆",time:"10 min",built:true},
     {id:"philosophy",label:"Options Philosophy",desc:"Why options. The MU story. The CAT story.",color:T.gold,icon:"★",time:"7 min",built:false},
@@ -467,6 +467,8 @@ export default function App(){
   if(navTab==="learn"&&activeModule==="spreads")return<Module03 onBack={handleModuleBack}/>;
   if(navTab==="learn"&&activeModule==="margin")return<Module05 onBack={handleModuleBack}/>;
   if(navTab==="learn"&&activeModule==="pricing")return<Module06 onBack={handleModuleBack}/>;
+  if(navTab==="learn"&&activeModule==="stocks")return<Module01 onBack={handleModuleBack}/>;
+  if(navTab==="learn"&&activeModule==="together")return<Module04 onBack={handleModuleBack}/>;
 
   return(
     <div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"Georgia,serif",maxWidth:480,margin:"0 auto"}}>
