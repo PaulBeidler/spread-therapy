@@ -1,12 +1,12 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
+import Module00 from "./modules/Module00.jsx";
+import Module01 from "./modules/Module01.jsx";
 import Module02 from "./modules/Module02.jsx";
 import Module03 from "./modules/Module03.jsx";
+import Module04 from "./modules/Module04.jsx";
 import Module05 from "./modules/Module05.jsx";
 import Module06 from "./modules/Module06.jsx";
-import Module01 from "./modules/Module01.jsx";
-import Module04 from "./modules/Module04.jsx";
-import Module00 from "./modules/Module00.jsx";
 import Module07 from "./modules/Module07.jsx";
 import Coach from "./Coach.jsx";
 
@@ -311,15 +311,6 @@ function Quiz({onBack}){
             <div style={{background:"rgba(255,255,255,0.05)",borderRadius:2,height:2}}><div style={{background:bc,height:2,width:`${pct}%`,borderRadius:2}}/></div>
           </div>;
         })}
-        <div style={{marginTop:20}}>
-          <div style={{fontSize:10,color:T.dim,letterSpacing:2,marginBottom:12}}>QUESTION REVIEW</div>
-          {history.map((h,i)=>(
-            <div key={i} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"8px 10px",borderRadius:7,marginBottom:4,background:T.surface,borderLeft:`2px solid ${h.correct?T.green:T.red}`}}>
-              <span style={{fontSize:12,flexShrink:0,color:h.correct?T.green:T.red}}>{h.correct?"✓":"✗"}</span>
-              <div><div style={{fontSize:11,color:T.mid}}>{h.concept}</div><div style={{fontSize:10,color:T.dim}}>{h.ticker&&<span style={{marginRight:6}}>{h.ticker}</span>}d{h.difficulty} · {domainDisplay[h.domain]}</div></div>
-            </div>
-          ))}
-        </div>
         <button onClick={()=>{setPhase("intro");setQNum(0);setCurrent(null);setNext(null);setSelected(null);setRevealed(false);setAbility(0);setHistory([]);setDomainScores(Object.fromEntries(DOMAINS.map(d=>[d,{correct:0,attempts:0}])));tickerIdx.current=0;}} style={{width:"100%",marginTop:16,padding:"12px",background:"transparent",border:`1px solid ${T.border}`,borderRadius:8,color:T.dim,fontSize:13,cursor:"pointer",fontFamily:"Georgia,serif"}}>Retake assessment</button>
       </div>
     </div>
@@ -465,14 +456,13 @@ export default function App(){
 
   if(screen==="detail"&&selectedCampaign)return<div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"Georgia,serif",maxWidth:480,margin:"0 auto"}}><CampaignDetail c={selectedCampaign} onBack={handleBack}/></div>;
 
-  // Full-screen module views
+  if(navTab==="learn"&&activeModule==="getting-started")return<Module00 onBack={handleModuleBack}/>;
+  if(navTab==="learn"&&activeModule==="stocks")return<Module01 onBack={handleModuleBack}/>;
   if(navTab==="learn"&&activeModule==="options")return<Module02 onBack={handleModuleBack}/>;
   if(navTab==="learn"&&activeModule==="spreads")return<Module03 onBack={handleModuleBack}/>;
+  if(navTab==="learn"&&activeModule==="together")return<Module04 onBack={handleModuleBack}/>;
   if(navTab==="learn"&&activeModule==="margin")return<Module05 onBack={handleModuleBack}/>;
   if(navTab==="learn"&&activeModule==="pricing")return<Module06 onBack={handleModuleBack}/>;
-  if(navTab==="learn"&&activeModule==="stocks")return<Module01 onBack={handleModuleBack}/>;
-  if(navTab==="learn"&&activeModule==="together")return<Module04 onBack={handleModuleBack}/>;
-  if(navTab==="learn"&&activeModule==="getting-started")return<Module00 onBack={handleModuleBack}/>;
   if(navTab==="learn"&&activeModule==="philosophy")return<Module07 onBack={handleModuleBack}/>;
 
   return(
@@ -480,7 +470,7 @@ export default function App(){
       <div style={{padding:"16px 20px 12px",borderBottom:`1px solid ${T.border}`,position:"sticky",top:0,zIndex:20,background:"rgba(12,12,16,0.96)",backdropFilter:"blur(12px)",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
         <div>
           <div style={{fontSize:9,color:T.gold,letterSpacing:4,textTransform:"uppercase",marginBottom:2}}>Spread Therapy</div>
-          <div style={{fontSize:15,fontWeight:"bold"}}>{navTab==="home"?"Dashboard":navTab==="quiz"?"Knowledge Assessment":"Learn Hub"}</div>
+          <div style={{fontSize:15,fontWeight:"bold"}}>{navTab==="home"?"Dashboard":navTab==="quiz"?"Knowledge Assessment":navTab==="learn"?"Learn Hub":"Coach"}</div>
         </div>
         <button onClick={handleLogout} style={{background:"none",border:"none",color:T.dim,fontSize:11,cursor:"pointer",fontFamily:"Georgia,serif"}}>Sign out</button>
       </div>
