@@ -8,6 +8,7 @@ import Module01 from "./modules/Module01.jsx";
 import Module04 from "./modules/Module04.jsx";
 import Module00 from "./modules/Module00.jsx";
 import Module07 from "./modules/Module07.jsx";
+import Coach from "./Coach.jsx";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -487,10 +488,10 @@ export default function App(){
         {navTab==="home"&&<Dashboard onSelectCampaign={handleSelectCampaign}/>}
         {navTab==="quiz"&&<Quiz onBack={()=>setNavTab("home")}/>}
         {navTab==="learn"&&<LearnHub onSelectModule={setActiveModule}/>}
+        {navTab==="coach"&&<Coach/>}
       </div>
       <div style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:480,background:"rgba(12,12,16,0.97)",backdropFilter:"blur(12px)",borderTop:`1px solid ${T.border}`,display:"flex",justifyContent:"space-around",padding:"10px 0 14px"}}>
-        {[["home","◉","Dashboard"],["quiz","◎","Quiz"],["learn","◈","Learn"]].map(([id,icon,label])=>(
-          <button key={id} onClick={()=>{setNavTab(id);if(id!=="learn")setActiveModule(null);}} style={{background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:3,padding:"4px 20px"}}>
+        {[["home","◉","Dashboard"],["quiz","◎","Quiz"],["learn","◈","Learn"],["coach","◆","Coach"]].map(...)}            <button key={id} onClick={()=>{setNavTab(id);if(id!=="learn")setActiveModule(null);}} style={{background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:3,padding:"4px 20px"}}>
             <span style={{fontSize:16,color:navTab===id?T.gold:T.dim}}>{icon}</span>
             <span style={{fontSize:9,letterSpacing:1,color:navTab===id?T.gold:T.dim}}>{label.toUpperCase()}</span>
           </button>
