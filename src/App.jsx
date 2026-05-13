@@ -1,70 +1,67 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
+import Module02 from "./modules/Module02.jsx";
+import Module03 from "./modules/Module03.jsx";
+import Module05 from "./modules/Module05.jsx";
+import Module06 from "./modules/Module06.jsx";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY 
+  import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
 const T = {
-  bg: "#0c0c10", surface: "rgba(255,255,255,0.025)", border: "rgba(255,255,255,0.07)",
-  gold: "#c9a84c", goldDim: "rgba(201,168,76,0.12)", goldBorder: "rgba(201,168,76,0.25)",
-  text: "#f0ede8", mid: "#888", dim: "#444", green: "#22c55e", blue: "#4a9eff",
-  purple: "#a855f7", orange: "#f97316", red: "#ef4444", amber: "#f59e0b", teal: "#06b6d4",
+  bg:"#0c0c10",surface:"rgba(255,255,255,0.025)",border:"rgba(255,255,255,0.07)",
+  gold:"#c9a84c",goldDim:"rgba(201,168,76,0.12)",goldBorder:"rgba(201,168,76,0.25)",
+  text:"#f0ede8",mid:"#888",dim:"#444",green:"#22c55e",blue:"#4a9eff",
+  purple:"#a855f7",orange:"#f97316",red:"#ef4444",amber:"#f59e0b",teal:"#06b6d4",
 };
 
-const QUIZ_PROMPT = `You are the Spread Therapy options knowledge assessment engine.
-Generate exactly ONE multiple choice question about options trading based on the difficulty level and domain requested.
+const QUIZ_PROMPT=`You are the Spread Therapy options knowledge assessment engine.
+Generate exactly ONE multiple choice question about options trading.
 DIFFICULTY SCALE (1-10):
-1-2: Pure basics (what is a call, what is a put, what is a premium)
-3-4: Intermediate basics (ITM/OTM/ATM, expiration, assignment basics)
-5-6: Mechanics (spreads, Greeks basics, IV, risk/reward calculations)
-7-8: Advanced (Greek interactions, rolling, tax treatment, adaptive strategy)
-9-10: Expert (Greek math, complex scenarios, framework optimization)
+1-2: Pure basics, 3-4: Intermediate basics, 5-6: Mechanics, 7-8: Advanced, 9-10: Expert
 DOMAINS: basics, pricing, greeks, spreads, assignment, tax, risk_management, strategy
-TICKER ROTATION: Use a DIFFERENT ticker every question. Rotate through:
-RUTW, NVDA, AAPL, RTX, IONQ, XSP, TSLA, AMD, LMT, PLTR, RUT, AMZN, INTC, CAT, COIN, GOOGL, AVGO, META, MSFT, SPY
+TICKER ROTATION: Use a DIFFERENT ticker every question from:
+RUTW,NVDA,AAPL,RTX,IONQ,XSP,TSLA,AMD,LMT,PLTR,RUT,AMZN,INTC,CAT,COIN,GOOGL,AVGO,META,MSFT,SPY
 NEVER use MU. Use the ticker specified in the request.
 Respond ONLY with valid JSON:
-{
-  "question": "string",
-  "options": ["A. ...", "B. ...", "C. ...", "D. ..."],
-  "correct": "A" or "B" or "C" or "D",
-  "domain": "string",
-  "difficulty": number,
-  "explanation": "string",
-  "concept": "string",
-  "ticker": "string"
-}`;
+{"question":"string","options":["A. ...","B. ...","C. ...","D. ..."],"correct":"A","domain":"string","difficulty":5,"explanation":"string","concept":"string","ticker":"string"}`;
 
-const TICKER_POOL = ["RUTW","NVDA","AAPL","RTX","IONQ","XSP","TSLA","AMD","LMT","PLTR","RUT","AMZN","INTC","CAT","COIN","GOOGL","AVGO","META","MSFT","SPY"];
-const DOMAINS = ["basics","pricing","greeks","spreads","assignment","tax","risk_management","strategy"];
-const TOTAL_Q = 15;
+const TICKER_POOL=["RUTW","NVDA","AAPL","RTX","IONQ","XSP","TSLA","AMD","LMT","PLTR","RUT","AMZN","INTC","CAT","COIN","GOOGL","AVGO","META","MSFT","SPY"];
+const DOMAINS=["basics","pricing","greeks","spreads","assignment","tax","risk_management","strategy"];
+const TOTAL_Q=15;
 
-const CAMPAIGNS = [
-  { id:"ST-002", ticker:"MU", name:"Covered Call Campaign", type:"covered_call", status:"active", tier:1, truePnL:55218, currentCall:"$1,000 Call · Oct 16", dteApprox:157, otmPct:26.9, delta:0.08, health:"green", thesis:"Long-term semiconductor conviction. Selling calls to generate income while shares appreciate." },
-  { id:"ST-001", ticker:"IONQ", name:"Naked Put — Rogue", type:"naked_put", status:"active", tier:null, netPremium:509, strikes:"$55 Put · Jun 5", dteApprox:24, otmPct:5.6, delta:0.3937, health:"red", alert:"Delta 0.39 — hard stop violation. Close before camping trip May 22.", thesis:"High IV entry. Rogue — outside framework." },
-  { id:"ST-004", ticker:"RUTW", name:"Bear Call Spread", type:"bear_call", status:"active", tier:3, netPremium:290, strikes:"3080/3100 · Jun 18", dteApprox:37, otmPct:6.9, delta:-0.025, health:"yellow", alert:"3 consecutive up days. Watch if RUT > 2,980.", thesis:"Tactical hedge on extended small-cap market." },
-  { id:"ST-005", ticker:"RUT", name:"LEAP Crash Shield", type:"leap", status:"active", tier:4, netPremium:-2836, strikes:"2350/2150 · Jun 2027", dteApprox:401, otmPct:18.4, delta:-0.165, health:"green", thesis:"Offensive capital for crash re-entry. Not insurance — ammunition." },
-  { id:"ST-006", ticker:"LMT", name:"Bull Put Spread", type:"bull_put", status:"active", tier:2, netPremium:400, strikes:"$480/$470 · Jun 18", dteApprox:37, otmPct:6.4, delta:0.12, health:"green", thesis:"Defense sector bull put. LMT comfortable buffer." },
-  { id:"ST-007", ticker:"INTC", name:"Bull Put Spread", type:"bull_put", status:"active", tier:2, netPremium:376, strikes:"$90/$80 · Jun 18", dteApprox:37, otmPct:20.4, delta:0.07, health:"green", thesis:"Parabolic stock. 20% OTM — very safe." },
+const CAMPAIGNS=[
+  {id:"ST-002",ticker:"MU",name:"Covered Call Campaign",type:"covered_call",status:"active",tier:1,truePnL:55218,currentCall:"$1,000 Call · Oct 16",dteApprox:157,otmPct:26.9,delta:0.08,health:"green",thesis:"Long-term semiconductor conviction. Selling calls to generate income while shares appreciate."},
+  {id:"ST-001",ticker:"IONQ",name:"Naked Put — Rogue",type:"naked_put",status:"active",tier:null,netPremium:509,strikes:"$55 Put · Jun 5",dteApprox:24,otmPct:5.6,delta:0.3937,health:"red",alert:"Delta 0.39 — hard stop violation. Close before camping trip May 22.",thesis:"High IV entry. Rogue — outside framework."},
+  {id:"ST-004",ticker:"RUTW",name:"Bear Call Spread",type:"bear_call",status:"active",tier:3,netPremium:290,strikes:"3080/3100 · Jun 18",dteApprox:37,otmPct:6.9,delta:-0.025,health:"yellow",alert:"3 consecutive up days. Watch if RUT > 2,980.",thesis:"Tactical hedge on extended small-cap market."},
+  {id:"ST-005",ticker:"RUT",name:"LEAP Crash Shield",type:"leap",status:"active",tier:4,netPremium:-2836,strikes:"2350/2150 · Jun 2027",dteApprox:401,otmPct:18.4,delta:-0.165,health:"green",thesis:"Offensive capital for crash re-entry. Not insurance — ammunition."},
+  {id:"ST-006",ticker:"LMT",name:"Bull Put Spread",type:"bull_put",status:"active",tier:2,netPremium:400,strikes:"$480/$470 · Jun 18",dteApprox:37,otmPct:6.4,delta:0.12,health:"green",thesis:"Defense sector bull put."},
+  {id:"ST-007",ticker:"INTC",name:"Bull Put Spread",type:"bull_put",status:"active",tier:2,netPremium:376,strikes:"$90/$80 · Jun 18",dteApprox:37,otmPct:20.4,delta:0.07,health:"green",thesis:"Parabolic stock. 20% OTM."},
 ];
 
-const HISTORY = [
-  { id:"C-001", ticker:"RUTW", name:"Bull Put 2770/2750", closedDate:"May 7, 2026", pnl:54, emotion:"😰", lesson:"Entered at 1.9% OTM on gap-up morning — violated 3 rules simultaneously. Survived. Closed with dignity.", violations:["Gap-up entry","Delta 0.32","<3% OTM"] },
-  { id:"C-002", ticker:"CAT", name:"Covered Call + Naked Puts", closedDate:"Apr 10, 2026", pnl:577, opportunityCost:16523, emotion:"😔", lesson:"Made $577. Lost $16,523 I never knew I was losing. CAT went from $740 to $911. The invisible loss.", violations:["Naked puts","Single stock","Panic management"] },
+const HISTORY=[
+  {id:"C-001",ticker:"RUTW",name:"Bull Put 2770/2750",closedDate:"May 7, 2026",pnl:54,emotion:"😰",lesson:"Entered at 1.9% OTM on gap-up morning — violated 3 rules simultaneously. Survived. Closed with dignity.",violations:["Gap-up entry","Delta 0.32","<3% OTM"]},
+  {id:"C-002",ticker:"CAT",name:"Covered Call + Naked Puts",closedDate:"Apr 10, 2026",pnl:577,opportunityCost:16523,emotion:"😔",lesson:"Made $577. Lost $16,523 I never knew I was losing. CAT went from $740 to $911. The invisible loss.",violations:["Naked puts","Single stock","Panic management"]},
 ];
 
-const fmtK = (n) => { if (n==null) return "—"; const abs=Math.abs(n); const s=abs>=10000?`${(abs/1000).toFixed(0)}K`:abs>=1000?`${(abs/1000).toFixed(1)}K`:`${abs}`; return n>=0?`+$${s}`:`-$${s}`; };
-const fmtFull = (n) => { if (n==null) return "—"; const abs=Math.abs(Math.round(n)).toLocaleString(); return n>=0?`+$${abs}`:`-$${abs}`; };
-const TYPE_COLOR = { covered_call:T.green, bull_put:T.blue, bear_call:T.purple, naked_put:T.orange, leap:T.gold };
-const TYPE_LABEL = { covered_call:"Covered Call", bull_put:"Bull Put", bear_call:"Bear Call", naked_put:"Naked Put", leap:"LEAP Shield" };
-const HEALTH_COLOR = { green:T.green, yellow:T.amber, red:T.red };
+const fmtK=(n)=>{if(n==null)return"—";const abs=Math.abs(n);const s=abs>=10000?`${(abs/1000).toFixed(0)}K`:abs>=1000?`${(abs/1000).toFixed(1)}K`:`${abs}`;return n>=0?`+$${s}`:`-$${s}`;};
+const fmtFull=(n)=>{if(n==null)return"—";const abs=Math.abs(Math.round(n)).toLocaleString();return n>=0?`+$${abs}`:`-$${abs}`;};
+const TYPE_COLOR={covered_call:T.green,bull_put:T.blue,bear_call:T.purple,naked_put:T.orange,leap:T.gold};
+const TYPE_LABEL={covered_call:"Covered Call",bull_put:"Bull Put",bear_call:"Bear Call",naked_put:"Naked Put",leap:"LEAP Shield"};
+const HEALTH_COLOR={green:T.green,yellow:T.amber,red:T.red};
 
 function updateAbility(a,d,c){const p=1/(1+Math.exp(-(a-d)));return a+0.5*((c?1:0)-p);}
 function abilityToScore(a){return Math.max(0,Math.min(100,Math.round(((a+3)/6)*100)));}
 function nextDiff(a){return Math.max(1,Math.min(10,Math.round(a+5)));}
-function getLevel(s){if(s<30)return{label:"Beginner",color:T.blue,icon:"◎"};if(s<55)return{label:"Developing",color:T.green,icon:"◑"};if(s<75)return{label:"Intermediate",color:T.gold,icon:"◕"};if(s<90)return{label:"Advanced",color:T.orange,icon:"●"};return{label:"Expert",color:T.purple,icon:"★"};}
+function getLevel(s){
+  if(s<30)return{label:"Beginner",color:T.blue,icon:"◎"};
+  if(s<55)return{label:"Developing",color:T.green,icon:"◑"};
+  if(s<75)return{label:"Intermediate",color:T.gold,icon:"◕"};
+  if(s<90)return{label:"Advanced",color:T.orange,icon:"●"};
+  return{label:"Expert",color:T.purple,icon:"★"};
+}
 
 async function genQuestion(difficulty,domain,history,tickerIdx){
   const ticker=TICKER_POOL[tickerIdx%TICKER_POOL.length];
@@ -75,8 +72,8 @@ async function genQuestion(difficulty,domain,history,tickerIdx){
   return JSON.parse((data.content?.[0]?.text||"").replace(/```json|```/g,"").trim());
 }
 
-const Tag = ({label,color}) => <span style={{fontSize:9,letterSpacing:1,color:color||T.gold,background:`${color||T.gold}18`,padding:"2px 8px",borderRadius:10,border:`1px solid ${color||T.gold}30`}}>{label}</span>;
-const SectionHead = ({title,color,count}) => <div style={{fontSize:10,color:color||T.dim,letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>{title}{count!=null?` · ${count}`:""}</div>;
+const Tag=({label,color})=><span style={{fontSize:9,letterSpacing:1,color:color||T.gold,background:`${color||T.gold}18`,padding:"2px 8px",borderRadius:10,border:`1px solid ${color||T.gold}30`}}>{label}</span>;
+const SectionHead=({title,color,count})=><div style={{fontSize:10,color:color||T.dim,letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>{title}{count!=null?` · ${count}`:""}</div>;
 
 function CampaignCard({c,onSelect}){
   const tc=TYPE_COLOR[c.type]||T.mid;
@@ -364,31 +361,33 @@ function Quiz({onBack}){
   );
 }
 
-function LearnHub(){
+function LearnHub({onSelectModule}){
   const modules=[
-    {id:"00",label:"Before You Begin",desc:"Requirements, margin, approval levels.",color:T.blue,icon:"◈",time:"5 min"},
-    {id:"01",label:"Stocks",desc:"Evaluate, buy, hold. DCA, tax law.",color:T.green,icon:"◉",time:"8 min"},
-    {id:"02",label:"Options",desc:"Puts, calls, American vs European style.",color:T.teal,icon:"◎",time:"10 min"},
-    {id:"03",label:"Spreads",desc:"Bull/bear spreads, strike distance, IV.",color:T.gold,icon:"◑",time:"12 min"},
-    {id:"04",label:"How It All Works Together",desc:"Stocks + covered calls + spreads simultaneously.",color:T.purple,icon:"◕",time:"10 min"},
-    {id:"05",label:"Margin & Capital Efficiency",desc:"Why spreads use less collateral.",color:T.orange,icon:"●",time:"8 min"},
-    {id:"06",label:"Pricing & Control",desc:"What your position is worth. How to change it.",color:T.amber,icon:"◆",time:"10 min"},
-    {id:"07",label:"Options Philosophy",desc:"Why options. The MU story. The CAT story.",color:T.gold,icon:"★",time:"7 min"},
+    {id:"getting-started",label:"Before You Begin",desc:"Requirements, margin, approval levels.",color:T.blue,icon:"◈",time:"5 min",built:false},
+    {id:"stocks",label:"Stocks",desc:"Evaluate, buy, hold. DCA, tax law.",color:T.green,icon:"◉",time:"8 min",built:false},
+    {id:"options",label:"Options",desc:"Puts, calls, American vs European style.",color:T.teal,icon:"◎",time:"10 min",built:true},
+    {id:"spreads",label:"Spreads",desc:"Bull/bear spreads, strike distance, IV.",color:T.gold,icon:"◑",time:"12 min",built:true},
+    {id:"together",label:"How It All Works Together",desc:"Stocks + covered calls + spreads simultaneously.",color:T.purple,icon:"◕",time:"10 min",built:false},
+    {id:"margin",label:"Margin & Capital Efficiency",desc:"Why spreads use less collateral.",color:T.orange,icon:"●",time:"8 min",built:true},
+    {id:"pricing",label:"Pricing & Control",desc:"What your position is worth. How to change it.",color:T.amber,icon:"◆",time:"10 min",built:true},
+    {id:"philosophy",label:"Options Philosophy",desc:"Why options. The MU story. The CAT story.",color:T.gold,icon:"★",time:"7 min",built:false},
   ];
   return(
     <div style={{padding:"18px 20px 80px"}}>
       <div style={{fontSize:12,color:T.dim,lineHeight:1.65,marginBottom:20}}>Seven modules. Start anywhere. The framework gets better the more you understand it.</div>
       {modules.map(m=>(
-        <div key={m.id} style={{background:T.surface,border:`1px solid ${T.border}`,borderLeft:`3px solid ${m.color}`,borderRadius:10,padding:"14px 16px",marginBottom:8,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+        <div key={m.id} onClick={()=>m.built&&onSelectModule(m.id)} style={{background:T.surface,border:`1px solid ${T.border}`,borderLeft:`3px solid ${m.color}`,borderRadius:10,padding:"14px 16px",marginBottom:8,display:"flex",justifyContent:"space-between",alignItems:"center",cursor:m.built?"pointer":"default",opacity:m.built?1:0.5}}>
           <div style={{display:"flex",alignItems:"center",gap:12}}>
             <span style={{fontSize:18,color:m.color}}>{m.icon}</span>
             <div>
-              <div style={{fontSize:9,color:m.color,letterSpacing:2,marginBottom:2}}>MODULE {m.id}</div>
               <div style={{fontSize:13,color:T.text}}>{m.label}</div>
               <div style={{fontSize:11,color:T.dim,marginTop:2}}>{m.desc}</div>
             </div>
           </div>
-          <div style={{textAlign:"right",flexShrink:0}}><div style={{fontSize:10,color:T.dim}}>◷ {m.time}</div><div style={{fontSize:10,color:T.dim,marginTop:4}}>Coming soon</div></div>
+          <div style={{textAlign:"right",flexShrink:0}}>
+            <div style={{fontSize:10,color:T.dim}}>◷ {m.time}</div>
+            <div style={{fontSize:10,color:m.built?T.green:T.dim,marginTop:4}}>{m.built?"Available →":"Coming soon"}</div>
+          </div>
         </div>
       ))}
     </div>
@@ -442,6 +441,7 @@ export default function App(){
   const [screen,setScreen]=useState("home");
   const [selectedCampaign,setSelectedCampaign]=useState(null);
   const [navTab,setNavTab]=useState("home");
+  const [activeModule,setActiveModule]=useState(null);
 
   useEffect(()=>{
     supabase.auth.getSession().then(({data:{session}})=>{setSession(session);setAuthLoading(false);});
@@ -449,15 +449,22 @@ export default function App(){
     return()=>subscription.unsubscribe();
   },[]);
 
-  const handleLogout=async()=>{await supabase.auth.signOut();setNavTab("home");};
+  const handleLogout=async()=>{await supabase.auth.signOut();setNavTab("home");setActiveModule(null);};
 
   if(authLoading)return<div style={{minHeight:"100vh",background:T.bg,display:"flex",alignItems:"center",justifyContent:"center"}}><div style={{fontSize:11,color:T.dim,letterSpacing:3}}>LOADING...</div></div>;
   if(!session)return<Login onLogin={()=>{}}/>;
 
   const handleSelectCampaign=(c)=>{setSelectedCampaign(c);setScreen("detail");};
   const handleBack=()=>{setScreen("home");setSelectedCampaign(null);};
+  const handleModuleBack=()=>setActiveModule(null);
 
   if(screen==="detail"&&selectedCampaign)return<div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"Georgia,serif",maxWidth:480,margin:"0 auto"}}><CampaignDetail c={selectedCampaign} onBack={handleBack}/></div>;
+
+  // Full-screen module views
+  if(navTab==="learn"&&activeModule==="options")return<Module02 onBack={handleModuleBack}/>;
+  if(navTab==="learn"&&activeModule==="spreads")return<Module03 onBack={handleModuleBack}/>;
+  if(navTab==="learn"&&activeModule==="margin")return<Module05 onBack={handleModuleBack}/>;
+  if(navTab==="learn"&&activeModule==="pricing")return<Module06 onBack={handleModuleBack}/>;
 
   return(
     <div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"Georgia,serif",maxWidth:480,margin:"0 auto"}}>
@@ -471,11 +478,11 @@ export default function App(){
       <div>
         {navTab==="home"&&<Dashboard onSelectCampaign={handleSelectCampaign}/>}
         {navTab==="quiz"&&<Quiz onBack={()=>setNavTab("home")}/>}
-        {navTab==="learn"&&<LearnHub/>}
+        {navTab==="learn"&&<LearnHub onSelectModule={setActiveModule}/>}
       </div>
       <div style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:480,background:"rgba(12,12,16,0.97)",backdropFilter:"blur(12px)",borderTop:`1px solid ${T.border}`,display:"flex",justifyContent:"space-around",padding:"10px 0 14px"}}>
         {[["home","◉","Dashboard"],["quiz","◎","Quiz"],["learn","◈","Learn"]].map(([id,icon,label])=>(
-          <button key={id} onClick={()=>setNavTab(id)} style={{background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:3,padding:"4px 20px"}}>
+          <button key={id} onClick={()=>{setNavTab(id);if(id!=="learn")setActiveModule(null);}} style={{background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:3,padding:"4px 20px"}}>
             <span style={{fontSize:16,color:navTab===id?T.gold:T.dim}}>{icon}</span>
             <span style={{fontSize:9,letterSpacing:1,color:navTab===id?T.gold:T.dim}}>{label.toUpperCase()}</span>
           </button>
