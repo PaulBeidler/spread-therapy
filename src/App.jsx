@@ -4,6 +4,8 @@ import Module02 from "./modules/Module02.jsx";
 import Module03 from "./modules/Module03.jsx";
 import Module05 from "./modules/Module05.jsx";
 import Module06 from "./modules/Module06.jsx";
+import Module01 from "./modules/Module01.jsx";
+import Module04 from "./modules/Module04.jsx";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
