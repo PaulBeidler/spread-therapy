@@ -5,7 +5,6 @@ const SECTIONS = [
     id: "opening",
     eyebrow: null,
     title: "Margin, Collateral & Capital Efficiency",
-    subtitle: "How your account's buying power actually works — and how to use it without overextending.",
     body: [
       "Most traders think of their account balance as a single number. It is not. It is a collection of available resources — cash, margin, collateral — each with different rules about how it can be used.",
       "Understanding these distinctions is not academic. It determines how many positions you can run simultaneously, how much income you can generate from a given account size, and how close to the edge you are operating.",
@@ -43,19 +42,17 @@ const SECTIONS = [
       "Your available collateral is not simply your account value. It is your account value minus what is already reserved for open positions.",
       "If your account is worth $117,000 and you have $9,500 in buying power reduction from open spreads, your remaining available collateral is approximately $107,500. That is what you can deploy for new positions.",
       "The framework limits each new position to 5% of account value for a moderate risk profile. On a $117,000 account, that is $5,850 per position. This ensures that no single losing trade can materially damage the account.",
-      "Running the math forward: $117,000 × 5% = $5,850 per position. A $10-wide spread with a maximum loss of $1,000 uses $1,000 in BPR — well within the 5% limit. You could theoretically run 117 such positions before hitting the limit. In practice, 8 to 12 active positions is the comfortable operating range for a systematic spread seller.",
+      "A $10-wide spread with a maximum loss of $1,000 uses $1,000 in BPR — well within the 5% limit. In practice, 8 to 12 active positions is the comfortable operating range for a systematic spread seller.",
     ],
   },
   {
     id: "pdt",
-    eyebrow: "An Important Rule",
+    eyebrow: "One Rule Worth Knowing",
     title: "The Pattern Day Trader Rule",
     body: [
-      "In the United States, the Pattern Day Trader (PDT) rule restricts traders with accounts under $25,000 from making more than three day trades — opening and closing a position on the same day — within any five-business-day period.",
-      "For systematic spread sellers who hold positions for 30 to 45 days, this rule is almost never relevant. You open a spread, you hold it, you close it weeks later. That is one round trip over several weeks, not a day trade.",
-      "Where the PDT rule can matter: if you need to close a position urgently — because delta has spiked, because the market moved unexpectedly, because a rule violation demands immediate action — you want to know in advance whether you have day trades available.",
-      "The framework's management rules — closing at 50% profit and at 21 DTE — are not day trades. Closing a position opened weeks ago is never counted as a day trade regardless of account size.",
-      "If your account is under $25,000, track your day trade count. It costs nothing and could matter on the one day you need to act quickly.",
+      "In the United States, if your account holds less than $25,000, you are limited to three day trades — opening and closing a position on the same day — within any five-business-day period.",
+      "For systematic spread sellers holding positions for 30 to 45 days, this rule is almost never relevant. Closing a position opened weeks ago is not a day trade.",
+      "Where it matters for capital management: if you need to close a position urgently and reopen a replacement the same day, that counts as two day trades. Know your count. Track it in your daily check.",
     ],
   },
   {
@@ -67,8 +64,8 @@ const SECTIONS = [
       "The most common mistake among systematic spread sellers is confusing available buying power with permission to deploy it all.",
       "A margin account might show $361,000 in buying power — as the current portfolio does. The vast majority of that is margin capacity, not free capital. Treating it as deployable buying power would mean taking on positions 3x to 4x what is appropriate for the underlying account value.",
       "The framework's 5% per trade rule exists precisely to prevent this. On a $117,000 account, 5% is $5,850. Even if the brokerage shows $361,000 in buying power, you make decisions based on the $117,000 account value — not the margin ceiling.",
-      "A second protection: maximum two bear call positions simultaneously. Bear calls fight against the market's natural upward drift. Running more than two means you are increasingly positioned against the dominant trend — a structural disadvantage that compounds with each additional position.",
-      "Capital efficiency is about finding the optimal allocation — enough positions to generate meaningful income, few enough to remain manageable and to weather individual losses without stress.",
+      "A second protection: maximum two bear call positions simultaneously. Bear calls fight against the market's natural upward drift. Running more than two means you are increasingly positioned against the dominant trend.",
+      "What overextension looks like in practice: you have 15 positions open, the market drops 2% in a day, and suddenly three positions are approaching your delta threshold simultaneously. You need to close them — but closing three positions at a loss consumes capital you were counting on for new entries. The account freezes. You cannot manage and you cannot redeploy. That is the margin trap.",
     ],
   },
   {
@@ -100,7 +97,7 @@ const SECTIONS = [
     body: [
       "Larger accounts do not have better strategies. They just have more room to run the same strategy more times.",
       "The framework scales identically from $10,000 to $1,000,000. The percentage rules, the strike distance requirements, the delta limits — all of them are expressed as percentages precisely so they apply at any account size.",
-      "What changes with account size is how many simultaneous positions you can run comfortably and how much absolute income you generate. A $50,000 account running eight positions at 5% risk each generates a different absolute number than a $500,000 account running the same strategy. The return percentage is similar.",
+      "What changes with account size is how many simultaneous positions you can run comfortably and how much absolute income you generate. The return percentage is similar at every size.",
       "Build the discipline at whatever size you are at now. The mechanics are identical when the account grows.",
     ],
     cta: true,
@@ -108,24 +105,40 @@ const SECTIONS = [
 ];
 
 const NEXT_MODULES = [
-  { id: "together", label: "Module 4", title: "How It All Works Together", desc: "Stocks, covered calls, and spreads running simultaneously." },
-  { id: "pricing", label: "Module 6", title: "Pricing & Control", desc: "What your positions are worth and how to read them." },
-  { id: "quiz", label: "Assessment", title: "Take the Quiz", desc: "Test your knowledge before your next trade." },
+  { id: "pricing", label: "Module 6", title: "Pricing & Control", desc: "What your positions are worth and how to read them in real time.", recommended: true },
+  { id: "philosophy", label: "Module 7", title: "Philosophy & Temperament", desc: "Why this approach works psychologically, and who it is for.", recommended: false },
+  { id: "quiz", label: "Assessment", title: "Take the Quiz", desc: "Test your capital management knowledge.", recommended: false },
 ];
 
 function useReadingProgress() {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
+    let raf;
     const update = () => {
       const el = document.documentElement;
       const scrollTop = el.scrollTop || document.body.scrollTop;
       const scrollHeight = el.scrollHeight - el.clientHeight;
       setProgress(scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0);
     };
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(() => { update(); raf = null; }); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return progress;
+}
+
+function useSectionProgress() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const refs = useRef([]);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => { entries.forEach(entry => { if (entry.isIntersecting) { const idx = refs.current.indexOf(entry.target); if (idx >= 0) setActiveIndex(idx); } }); },
+      { threshold: 0.3 }
+    );
+    refs.current.forEach(el => { if (el) obs.observe(el); });
+    return () => obs.disconnect();
+  }, []);
+  return { activeIndex, refs };
 }
 
 function FadeSection({ children, delay = 0 }) {
@@ -146,9 +159,9 @@ function FadeSection({ children, delay = 0 }) {
   );
 }
 
-export default function SpreadTherapyMargin() {
+export default function Module05({ onBack, onNavigate }) {
   const progress = useReadingProgress();
-  const [selectedNext, setSelectedNext] = useState(null);
+  const { activeIndex, refs } = useSectionProgress();
   const [accountSize, setAccountSize] = useState(50000);
   const [positions, setPositions] = useState(8);
   const maxPerTrade = Math.round(accountSize * 0.05);
@@ -156,20 +169,25 @@ export default function SpreadTherapyMargin() {
   const pctUsed = Math.round((totalBPR / accountSize) * 100);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#09090d", color: "#e8e4df", fontFamily: "'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif", maxWidth: 680, margin: "0 auto" }}>
+    <div className="st-margin" style={{ minHeight: "100vh", background: "#09090d", color: "#e8e4df", fontFamily: "'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif", maxWidth: 680, margin: "0 auto" }}>
 
-      <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, zIndex: 100, background: "rgba(255,255,255,0.04)" }}>
+      <div role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin={0} aria-valuemax={100} aria-label="Reading progress" style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, zIndex: 100, background: "rgba(255,255,255,0.04)" }}>
         <div style={{ height: "100%", background: "#f97316", width: `${progress}%`, transition: "width 0.1s linear" }} />
       </div>
 
-      <div style={{ position: "fixed", top: 16, right: 16, zIndex: 99, background: "rgba(12,12,18,0.92)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, padding: "6px 14px", display: "flex", alignItems: "center", gap: 8 }}>
-        <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#f97316" }} />
-        <span style={{ fontSize: 10, color: "#f97316", letterSpacing: 2 }}>MODULE 05</span>
+      <div style={{ position: "fixed", top: 16, left: 16, right: 16, zIndex: 99, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        {onBack && (
+          <button onClick={onBack} aria-label="Back to Learn Hub" style={{ background: "rgba(12,12,18,0.92)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, padding: "6px 14px", cursor: "pointer", color: "#f97316", fontSize: 12, fontFamily: "inherit", letterSpacing: 1 }}>← Back</button>
+        )}
+        <div style={{ background: "rgba(12,12,18,0.92)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, padding: "6px 14px", display: "flex", alignItems: "center", gap: 8, marginLeft: "auto" }}>
+          <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#f97316" }} />
+          <span style={{ fontSize: 10, color: "#f97316", letterSpacing: 2 }}>MODULE 05</span>
+        </div>
       </div>
 
       <div style={{ padding: "80px 32px 64px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         <FadeSection>
-          <div style={{ fontSize: 10, color: "#f97316", letterSpacing: 4, textTransform: "uppercase", marginBottom: 20 }}>Spread Therapy · Margin & Capital Efficiency</div>
+          <div style={{ fontSize: 10, color: "#f97316", letterSpacing: 4, textTransform: "uppercase", marginBottom: 20 }}>Spread Therapy · Capital Efficiency</div>
         </FadeSection>
         <FadeSection delay={100}>
           <h1 style={{ fontSize: "clamp(30px, 6vw, 48px)", fontWeight: "normal", lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 24, color: "#f5f1eb" }}>Margin, Collateral<br />&amp; Capital Efficiency</h1>
@@ -181,7 +199,7 @@ export default function SpreadTherapyMargin() {
         </FadeSection>
         <FadeSection delay={300}>
           <div style={{ display: "flex", gap: 20, marginTop: 32, flexWrap: "wrap" }}>
-            {[["8 min read","◷"],["Module 5 of 7","◎"],["Essential","◈"]].map(([label,icon])=>(
+            {[["8 min read", "◷"], ["Module 5 of 7", "◎"], ["Essential", "◈"]].map(([label, icon]) => (
               <div key={label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <span style={{ fontSize: 11, color: "#444" }}>{icon}</span>
                 <span style={{ fontSize: 11, color: "#444", letterSpacing: 1 }}>{label}</span>
@@ -191,18 +209,17 @@ export default function SpreadTherapyMargin() {
         </FadeSection>
       </div>
 
-      {/* Portfolio calculator */}
       <FadeSection>
         <div style={{ padding: "32px 32px 0" }}>
           <div style={{ background: "rgba(249,115,22,0.05)", border: "1px solid rgba(249,115,22,0.15)", borderRadius: 14, padding: 24 }}>
             <div style={{ fontSize: 10, color: "#f97316", letterSpacing: 2, marginBottom: 20 }}>INTERACTIVE · PORTFOLIO CAPACITY CALCULATOR</div>
             <div style={{ marginBottom: 16 }}>
               <div style={{ fontSize: 11, color: "#555", marginBottom: 8 }}>Account size: ${accountSize.toLocaleString()}</div>
-              <input type="range" min="5000" max="500000" step="5000" value={accountSize} onChange={e => setAccountSize(Number(e.target.value))} style={{ width: "100%", accentColor: "#f97316" }} />
+              <input type="range" min="5000" max="500000" step="5000" value={accountSize} onChange={e => setAccountSize(Number(e.target.value))} aria-label="Account size" style={{ width: "100%", accentColor: "#f97316" }} />
             </div>
             <div style={{ marginBottom: 20 }}>
               <div style={{ fontSize: 11, color: "#555", marginBottom: 8 }}>Active positions: {positions} (assuming $1,000 BPR each)</div>
-              <input type="range" min="1" max="20" value={positions} onChange={e => setPositions(Number(e.target.value))} style={{ width: "100%", accentColor: "#f97316" }} />
+              <input type="range" min="1" max="20" value={positions} onChange={e => setPositions(Number(e.target.value))} aria-label="Number of active positions" style={{ width: "100%", accentColor: "#f97316" }} />
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
               {[
@@ -226,7 +243,7 @@ export default function SpreadTherapyMargin() {
       <div style={{ padding: "0 32px 80px" }}>
         {SECTIONS.map((section, si) => (
           <FadeSection key={section.id} delay={si * 40}>
-            <div style={{ padding: "48px 0", borderBottom: si < SECTIONS.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
+            <div ref={el => refs.current[si] = el} style={{ padding: "48px 0", borderBottom: si < SECTIONS.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
 
               {section.eyebrow && (
                 <div style={{ fontSize: 10, color: "#f97316", letterSpacing: 3, textTransform: "uppercase", marginBottom: 14 }}>{section.eyebrow}</div>
@@ -248,7 +265,6 @@ export default function SpreadTherapyMargin() {
                 ))}
               </div>
 
-              {/* LEAP breakdown */}
               {section.id === "leap_collateral" && (
                 <FadeSection delay={100}>
                   <div style={{ marginTop: 28, background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.15)", borderRadius: 12, padding: 20 }}>
@@ -270,25 +286,24 @@ export default function SpreadTherapyMargin() {
                 </FadeSection>
               )}
 
-              {/* CTA */}
               {section.cta && (
                 <div style={{ marginTop: 44 }}>
-                  <div style={{ fontSize: 10, color: "#555", letterSpacing: 2, textTransform: "uppercase", marginBottom: 18 }}>Where would you like to go next?</div>
+                  <div style={{ fontSize: 10, color: "#555", letterSpacing: 2, textTransform: "uppercase", marginBottom: 18 }}>Continue to the next module</div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                     {NEXT_MODULES.map(mod => (
-                      <button key={mod.id} onClick={() => setSelectedNext(mod.id)} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 20px", borderRadius: 10, cursor: "pointer", background: selectedNext === mod.id ? "rgba(249,115,22,0.08)" : "rgba(255,255,255,0.02)", border: `1px solid ${selectedNext === mod.id ? "rgba(249,115,22,0.35)" : "rgba(255,255,255,0.06)"}`, textAlign: "left", fontFamily: "inherit", transition: "all 0.18s" }}>
+                      <button key={mod.id} onClick={() => onNavigate?.(mod.id)} aria-label={`Go to ${mod.title}`} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 20px", borderRadius: 10, cursor: "pointer", background: mod.recommended ? "rgba(249,115,22,0.08)" : "rgba(255,255,255,0.02)", border: `1px solid ${mod.recommended ? "rgba(249,115,22,0.35)" : "rgba(255,255,255,0.06)"}`, textAlign: "left", fontFamily: "inherit", transition: "all 0.18s", outline: "none", width: "100%" }}>
                         <div>
-                          <div style={{ fontSize: 9, color: selectedNext === mod.id ? "#f97316" : "#444", letterSpacing: 2, marginBottom: 4 }}>{mod.label}</div>
-                          <div style={{ fontSize: 15, color: selectedNext === mod.id ? "#f0ede8" : "#888" }}>{mod.title}</div>
+                          <div style={{ fontSize: 9, color: mod.recommended ? "#f97316" : "#444", letterSpacing: 2, marginBottom: 4 }}>{mod.label}{mod.recommended && " · RECOMMENDED"}</div>
+                          <div style={{ fontSize: 15, color: mod.recommended ? "#f0ede8" : "#888" }}>{mod.title}</div>
                           <div style={{ fontSize: 11, color: "#444", marginTop: 3 }}>{mod.desc}</div>
                         </div>
-                        <span style={{ fontSize: 18, color: selectedNext === mod.id ? "#f97316" : "#333" }}>→</span>
+                        <span style={{ fontSize: 18, color: mod.recommended ? "#f97316" : "#333" }}>→</span>
                       </button>
                     ))}
                   </div>
-                  {selectedNext && (
-                    <button style={{ width: "100%", marginTop: 14, padding: "15px", background: "rgba(249,115,22,0.1)", border: "1px solid rgba(249,115,22,0.3)", borderRadius: 10, color: "#f97316", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}>Continue →</button>
-                  )}
+                  <p style={{ fontSize: 11, color: "#444", marginTop: 14, fontStyle: "italic" }}>
+                    Most readers continue to Module 6 — understanding the Greeks gives you real-time control over your positions.
+                  </p>
                 </div>
               )}
             </div>
@@ -298,7 +313,7 @@ export default function SpreadTherapyMargin() {
 
       <div style={{ position: "fixed", left: "max(16px, calc(50% - 380px))", top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 6, opacity: 0.3 }}>
         {SECTIONS.map((s, i) => (
-          <div key={s.id} style={{ width: 3, height: progress > (i / SECTIONS.length) * 100 ? 18 : 7, background: "#f97316", borderRadius: 2, transition: "height 0.3s ease", opacity: progress > (i / SECTIONS.length) * 100 ? 1 : 0.3 }} />
+          <div key={s.id} style={{ width: 3, height: i <= activeIndex ? 18 : 7, background: "#f97316", borderRadius: 2, transition: "height 0.3s ease", opacity: i <= activeIndex ? 1 : 0.3 }} />
         ))}
       </div>
 
@@ -307,7 +322,12 @@ export default function SpreadTherapyMargin() {
         <div style={{ fontSize: 9, color: "#222" }}>Not financial advice</div>
       </div>
 
-      <style>{`* { box-sizing: border-box; margin: 0; padding: 0; } html { scroll-behavior: smooth; } body { background: #09090d; } p, h1, h2, button { margin: 0; } button { outline: none; } @media (max-width: 600px) { div[style*="padding: 80px 32px"] { padding: 56px 20px 48px !important; } div[style*="padding: 0 32px 80px"] { padding: 0 20px 60px !important; } div[style*="grid-template-columns: 1fr 1fr 1fr"] { grid-template-columns: 1fr !important; } }`}</style>
+      <style>{`
+        .st-margin * { box-sizing: border-box; }
+        .st-margin p, .st-margin h1, .st-margin h2, .st-margin button { margin: 0; }
+        .st-margin button:focus-visible { outline: 2px solid #f97316; outline-offset: 2px; }
+        html { scroll-behavior: smooth; }
+      `}</style>
     </div>
   );
 }
