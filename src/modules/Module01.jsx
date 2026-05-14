@@ -5,9 +5,7 @@ const SECTIONS = [
     id: "opening",
     eyebrow: null,
     title: "Stocks",
-    subtitle: "What you own, why it matters, and how to think about it before options enter the picture.",
     body: [
-      "Before spreads. Before covered calls. Before Greeks. There is the question of what you own and why.",
       "Options trading built on top of a weak stock foundation is like installing a sophisticated alarm system in a house with no walls. The mechanics might work perfectly, and nothing will be protected.",
       "This module covers the stock side — how to evaluate what to own, how to build a position over time, and what the tax rules say about selling. These are not options concepts. They are the foundation that options sit on top of.",
     ],
@@ -28,11 +26,11 @@ const SECTIONS = [
     eyebrow: "Choosing What to Own",
     title: "How to Evaluate a Stock",
     body: [
-      "Stock evaluation is a vast field with entire careers built around it. This module offers a practical framework for the kind of evaluation relevant to options traders — specifically, how to think about stocks you might want to own long-term and sell covered calls against.",
-      "The first question is the business itself. Does this company have a durable competitive advantage? Can it raise prices without losing customers? Is the industry growing or shrinking? Are the people running it competent and aligned with shareholders?",
-      "The second question is valuation. Even a great business can be a terrible investment at the wrong price. A stock trading at 50 times earnings requires extraordinary growth to justify that multiple. A stock trading at 15 times earnings with solid fundamentals has a much more forgiving entry point.",
-      "The third question is for options traders specifically: does this stock have liquid options? Tight bid/ask spreads on monthly options? Reasonable implied volatility — not so low that premiums are thin, not so high that the stock is genuinely dangerous to own?",
-      "MU is a semiconductor company in a cyclical industry with real competitive advantages in memory technology. RTX is a defense contractor with long-duration government contracts. Both have liquid options markets, reasonable implied volatility, and businesses worth holding through market cycles.",
+      "For an options trader, stock evaluation starts with a question most investors never ask: does this stock have a liquid options market? Tight bid/ask spreads on monthly options? Reasonable implied volatility — not so low that premiums are thin, not so high that the stock is genuinely dangerous to own?",
+      "If the answer is no, the stock may be a fine investment but a poor candidate for this framework. Options income requires options liquidity. Check this first.",
+      "Once liquidity is confirmed, the traditional questions matter. Does this company have a durable competitive advantage? Can it raise prices without losing customers? Is the industry growing or shrinking? Are the people running it competent and aligned with shareholders?",
+      "Then valuation. Even a great business can be a terrible investment at the wrong price. A stock trading at 50 times earnings requires extraordinary growth to justify that multiple. A stock trading at 15 times earnings with solid fundamentals has a much more forgiving entry point.",
+      "MU is a semiconductor company in a cyclical industry with real competitive advantages in memory technology. RTX is a defense contractor with long-duration government contracts. Both have liquid options markets, reasonable implied volatility, and businesses worth holding through market cycles. These are the stocks in this portfolio. Your stocks will be different — but the evaluation criteria are the same.",
     ],
   },
   {
@@ -51,13 +49,13 @@ const SECTIONS = [
   {
     id: "timing",
     eyebrow: "When to Buy",
-    title: "Market Timing Is Not What You Think",
+    title: "Conviction Makes Patience Possible",
     body: [
+      "The real secret to entry timing is not a technical indicator or a market signal. It is conviction about the business you are buying.",
+      "If you genuinely believe in the long-term demand for memory semiconductors, every red day for MU looks like a better entry point — not a reason to panic. If you are buying purely because you think the price will go up next month, every red day feels like a reason to sell. Timing discipline is a byproduct of stock selection quality.",
       "You cannot consistently time the market. Nobody can. Studies spanning decades consistently show that professional fund managers with unlimited research resources cannot reliably predict short-term market movements.",
       "What you can do is be opportunistic about entry points. There is a difference between trying to call the exact bottom — which is impossible — and being patient enough to buy during fear rather than euphoria.",
       "Practical entry discipline: buy on red days, not green ones. Buy when a sector is out of favor, not when it is leading the market. Buy when the news is bad and the stock has already fallen, not when everything looks rosy and the price reflects perfection.",
-      "MU is a semiconductor stock. Semiconductors are cyclical — they go through boom and bust cycles as supply and demand for chips oscillates. The best time to buy MU is when the cycle is in a downturn and analysts are writing negative reports. That is when the stock is cheap. That is when the long-term entry is favorable.",
-      "This patience is easier to maintain if you genuinely believe in the business. If you are buying MU purely because you think the price will go up next month, every red day feels like a reason to sell. If you are buying because you believe in the long-term demand for memory semiconductors, every red day looks like a better entry point.",
     ],
   },
   {
@@ -65,11 +63,11 @@ const SECTIONS = [
     eyebrow: "Your Foundation Number",
     title: "Cost Basis and Why It Matters",
     body: [
-      "Your cost basis is the average price you paid for your shares, including all commissions. It is the number that determines your taxable gain when you eventually sell.",
-      "For covered call sellers, cost basis matters for a second reason: it determines how much upside you have before a covered call creates a problem. If your cost basis on MU is $121 and you sell a $1,000 call, you have enormous room — the stock would need to run 726% before your shares get called away at a loss relative to current value.",
-      "If your cost basis were $800 and you sold the same $1,000 call, the picture is different. The stock running to $1,000 means your shares get called away at a $200 gain — fine, but much less dramatic than the gain available to someone who bought at $121.",
-      "This is why building a position through DCA at favorable prices matters so much for covered call sellers. Your low cost basis gives you enormous flexibility in selecting strikes. You can sell calls far out of the money — giving the stock room to run — while still collecting meaningful premium.",
-      "Track your cost basis carefully. Your brokerage shows it, but the number can be distorted by various adjustments. Knowing your true average cost, including all purchases and adjustments, tells you the real story of your position.",
+      "Your cost basis is the average price you paid for your shares. It is the number that determines your taxable gain when you eventually sell — and for covered call sellers, it determines something equally important: how much room you have between your shares and your strike price.",
+      "If your cost basis on MU is $121 and you sell a $140 call, you have $19 of upside before your shares get called away. That is a 15.7% gain — meaningful, and it gives you a comfortable buffer. You can sell that call without anxiety.",
+      "If your cost basis were $135 and you sold the same $140 call, you only have $5 of room. A quick move to $160 means your shares get called away at $140 and you miss $20 of upside beyond your strike. The higher your cost basis, the less flexibility you have in strike selection.",
+      "This is why building a position through DCA at favorable prices matters so much for covered call sellers. A low cost basis gives you enormous flexibility. You can sell calls far out of the money — giving the stock room to run — while still collecting meaningful premium.",
+      "Track your cost basis carefully. Your brokerage shows it, but the number can be distorted by various adjustments. Know your true average cost.",
     ],
   },
   {
@@ -82,7 +80,8 @@ const SECTIONS = [
       "Short-term capital gains apply to stocks held for one year or less. They are taxed as ordinary income — the same rate as your salary. Depending on your tax bracket, this can be 22%, 24%, 32%, or higher.",
       "Long-term capital gains apply to stocks held for more than one year. The rates are 0%, 15%, or 20% depending on your income. For most investors in the 32% ordinary income bracket, the difference between long-term and short-term rates is roughly 12-17 percentage points on every dollar of gain.",
       "For a stock that has appreciated significantly — MU from $121 to $787, an unrealized gain of $66,600 — the tax impact of selling prematurely is enormous. The difference between long-term and short-term treatment on a $66,600 gain at a 15% vs 32% rate is over $11,000.",
-      "The practical implication: think carefully before selling a long-term holding to chase a short-term opportunity. The after-tax math often makes the trade look much less attractive.",
+      "Two additional tax treatments worth knowing: Section 1256 contracts — which include index options like RUT and XSP — receive automatic 60/40 treatment. Sixty percent of gains are taxed at long-term rates and 40% at short-term, regardless of holding period. This blended rate is approximately 19% for the 32% bracket, making index options tax-advantaged compared to equity options. And if you trade in a Roth IRA, gains are tax-free entirely.",
+      "Think carefully before selling a long-term holding to chase a short-term opportunity. The after-tax math often makes the trade look much less attractive than the gross numbers suggest.",
     ],
   },
   {
@@ -91,11 +90,11 @@ const SECTIONS = [
     title: "The Wash Sale Rule",
     body: [
       "The wash sale rule is one of the most commonly misunderstood tax rules in investing. Getting it wrong can cost you a significant deduction.",
-      "The rule: if you sell a security at a loss and buy the same or a substantially identical security within 30 days before or after the sale, you cannot claim the loss for tax purposes. The loss is deferred — added to the cost basis of the replacement shares — until you eventually sell the replacement.",
+      "The rule: if you sell a security at a loss and buy the same or a substantially identical security within 30 days before or after the sale, you cannot claim the loss for tax purposes. The loss is deferred — added to the cost basis of the replacement shares — until you eventually sell them.",
       "The practical trigger: you sell a stock at a loss to harvest the tax deduction, then buy it back quickly because you still like the business. The IRS says you cannot have both the tax loss and the repurchased position. You must wait 31 days before buying back.",
-      "For options traders, the wash sale rule has additional complexity. Buying a call option on a stock you just sold at a loss — within the 30-day window — may trigger the wash sale rule because the call gives you exposure to the same stock. The IRS considers this a substantially identical security in some circumstances.",
+      "For options traders, additional complexity: buying a call option on a stock you just sold at a loss — within the 30-day window — may trigger the wash sale rule because the call gives you exposure to the same stock.",
       "The safe approach: if you sell a stock at a loss and want to stay in the trade, either wait 31 days before repurchasing or use an ETF or index to maintain market exposure during the waiting period without triggering the rule.",
-      "The wash sale rule does not eliminate your loss — it defers it. The deferred loss adds to the cost basis of your replacement shares, reducing the taxable gain when you eventually sell them. But the timing of the deduction matters for tax planning purposes.",
+      "The wash sale rule does not eliminate your loss — it defers it. But the timing of the deduction matters for tax planning purposes.",
     ],
   },
   {
@@ -106,7 +105,7 @@ const SECTIONS = [
       "Once you own shares, options become tools for managing that position — not separate bets on top of it.",
       "Covered calls reduce your cost basis over time. Every premium collected lowers the effective price you paid for the shares. After the MU campaign, the effective cost basis on those shares — after accounting for all premiums collected — is significantly below the nominal $121 average purchase price.",
       "This cost basis reduction is one of the most powerful arguments for systematic covered call selling. You are not giving up upside for premium. You are collecting income that reduces your break-even and improves your overall return in every scenario except a large, rapid stock appreciation.",
-      "The one risk: if the stock surges dramatically, your covered call caps your participation above the strike. The MU $1,000 call means that if MU goes to $1,200 before October, your upside is capped at $1,000 per share. You still make an extraordinary return — but not as much as a pure stock holder.",
+      "The one risk: if the stock surges dramatically, your covered call caps your participation above the strike. If you sold a $140 call and MU runs to $180, your upside is capped at $140 per share. You still make a solid return — but not as much as a pure stock holder.",
       "This is the covered call tradeoff: regular income and reduced cost basis in exchange for capped upside on dramatic moves. For most long-term holders, it is a favorable tradeoff most of the time. The key is selling strikes far enough out of the money that the cap feels comfortable given your outlook.",
     ],
   },
@@ -117,32 +116,49 @@ const SECTIONS = [
     body: [
       "The single best piece of stock advice that applies to options traders: only own stocks you understand well enough to buy more of when they fall.",
       "If a stock drops 20% and your instinct is to sell, you did not have the conviction to own it in the first place. Selling covered calls on a stock you would sell during a pullback is dangerous — you are generating options income while hoping the stock does not test your conviction.",
-      "The stocks in this portfolio — MU, RTX, PLTR, TSLL — are held because of a genuine view on the underlying business. The covered calls are written against that genuine long-term conviction. When MU fell from its highs, the response was to roll the call, not to sell the shares.",
+      "This is not abstract. It is the difference between a covered call strategy that compounds over years and one that blows up in the first correction. The trader who sells calls on a stock they believe in will roll the call and buy more shares on the dip. The trader who sells calls on a stock they are unsure about will panic-sell the shares and eat the options loss simultaneously.",
       "Build your stock positions with the same care you bring to your options framework. They are the foundation. Options are the engine. The engine only runs as well as the foundation allows.",
+      "And remember: you do not need to own the same stocks as this portfolio. You need to own stocks you understand, believe in, and would buy more of at lower prices. Apply the evaluation criteria. Find your own conviction. Then let the options framework do its work.",
     ],
     cta: true,
   },
 ];
 
 const NEXT_MODULES = [
-  { id: "options", label: "Module 2", title: "Options", desc: "Puts, calls, and why the contract is your most powerful tool." },
-  { id: "together", label: "Module 4", title: "How It All Works Together", desc: "Stocks, covered calls, and spreads running simultaneously." },
-  { id: "quiz", label: "Assessment", title: "Take the Quiz", desc: "Test your knowledge before your next trade." },
+  { id: "options", label: "Module 2", title: "Options", desc: "Puts, calls, and why the contract is your most powerful tool.", recommended: true },
+  { id: "together", label: "Module 4", title: "How It All Works Together", desc: "Stocks, covered calls, and spreads running simultaneously.", recommended: false },
+  { id: "quiz", label: "Assessment", title: "Take the Quiz", desc: "Test your knowledge before your next trade.", recommended: false },
 ];
 
 function useReadingProgress() {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
+    let raf;
     const update = () => {
       const el = document.documentElement;
       const scrollTop = el.scrollTop || document.body.scrollTop;
       const scrollHeight = el.scrollHeight - el.clientHeight;
       setProgress(scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0);
     };
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(() => { update(); raf = null; }); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return progress;
+}
+
+function useSectionProgress() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const refs = useRef([]);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => { entries.forEach(entry => { if (entry.isIntersecting) { const idx = refs.current.indexOf(entry.target); if (idx >= 0) setActiveIndex(idx); } }); },
+      { threshold: 0.3 }
+    );
+    refs.current.forEach(el => { if (el) obs.observe(el); });
+    return () => obs.disconnect();
+  }, []);
+  return { activeIndex, refs };
 }
 
 function FadeSection({ children, delay = 0 }) {
@@ -163,29 +179,28 @@ function FadeSection({ children, delay = 0 }) {
   );
 }
 
-export default function SpreadTherapyStocks({ onBack }) {
+export default function Module01({ onBack, onNavigate }) {
   const progress = useReadingProgress();
-  const [selectedNext, setSelectedNext] = useState(null);
+  const { activeIndex, refs } = useSectionProgress();
 
   return (
-    <div style={{ minHeight: "100vh", background: "#09090d", color: "#e8e4df", fontFamily: "'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif", maxWidth: 680, margin: "0 auto" }}>
+    <div className="st-stocks" style={{ minHeight: "100vh", background: "#09090d", color: "#e8e4df", fontFamily: "'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif", maxWidth: 680, margin: "0 auto" }}>
 
-      <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, zIndex: 100, background: "rgba(255,255,255,0.04)" }}>
+      <div role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin={0} aria-valuemax={100} aria-label="Reading progress" style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, zIndex: 100, background: "rgba(255,255,255,0.04)" }}>
         <div style={{ height: "100%", background: "#22c55e", width: `${progress}%`, transition: "width 0.1s linear" }} />
       </div>
 
-      <div style={{ position: "fixed", top: 16, right: 16, zIndex: 99, background: "rgba(12,12,18,0.92)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, padding: "6px 14px", display: "flex", alignItems: "center", gap: 8 }}>
-        <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e" }} />
-        <span style={{ fontSize: 10, color: "#22c55e", letterSpacing: 2 }}>MODULE 01</span>
+      <div style={{ position: "fixed", top: 16, left: 16, right: 16, zIndex: 99, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        {onBack && (
+          <button onClick={onBack} aria-label="Back to Learn Hub" style={{ background: "rgba(12,12,18,0.92)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, padding: "6px 14px", cursor: "pointer", color: "#22c55e", fontSize: 12, fontFamily: "inherit", letterSpacing: 1 }}>← Back</button>
+        )}
+        <div style={{ background: "rgba(12,12,18,0.92)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, padding: "6px 14px", display: "flex", alignItems: "center", gap: 8, marginLeft: "auto" }}>
+          <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e" }} />
+          <span style={{ fontSize: 10, color: "#22c55e", letterSpacing: 2 }}>MODULE 01</span>
+        </div>
       </div>
 
-      {onBack && (
-        <div style={{ padding: "16px 32px 0", position: "sticky", top: 0, zIndex: 50, background: "rgba(9,9,13,0.95)", backdropFilter: "blur(12px)" }}>
-          <button onClick={onBack} style={{ background: "none", border: "none", color: "#22c55e", fontSize: 14, cursor: "pointer", fontFamily: "inherit", letterSpacing: 1 }}>← Back to Learn Hub</button>
-        </div>
-      )}
-
-      <div style={{ padding: "60px 32px 64px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+      <div style={{ padding: "80px 32px 64px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         <FadeSection>
           <div style={{ fontSize: 10, color: "#22c55e", letterSpacing: 4, textTransform: "uppercase", marginBottom: 20 }}>Spread Therapy · Stocks</div>
         </FadeSection>
@@ -199,7 +214,7 @@ export default function SpreadTherapyStocks({ onBack }) {
         </FadeSection>
         <FadeSection delay={300}>
           <div style={{ display: "flex", gap: 20, marginTop: 32, flexWrap: "wrap" }}>
-            {[["8 min read","◷"],["Module 1 of 7","◎"],["Foundation","◈"]].map(([label,icon])=>(
+            {[["8 min read", "◷"], ["Module 1 of 7", "◎"], ["Foundation", "◈"]].map(([label, icon]) => (
               <div key={label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <span style={{ fontSize: 11, color: "#444" }}>{icon}</span>
                 <span style={{ fontSize: 11, color: "#444", letterSpacing: 1 }}>{label}</span>
@@ -212,7 +227,7 @@ export default function SpreadTherapyStocks({ onBack }) {
       <div style={{ padding: "0 32px 80px" }}>
         {SECTIONS.map((section, si) => (
           <FadeSection key={section.id} delay={si * 40}>
-            <div style={{ padding: "48px 0", borderBottom: si < SECTIONS.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
+            <div ref={el => refs.current[si] = el} style={{ padding: "48px 0", borderBottom: si < SECTIONS.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
 
               {section.eyebrow && (
                 <div style={{ fontSize: 10, color: "#22c55e", letterSpacing: 3, textTransform: "uppercase", marginBottom: 14 }}>{section.eyebrow}</div>
@@ -234,7 +249,6 @@ export default function SpreadTherapyStocks({ onBack }) {
                 ))}
               </div>
 
-              {/* Tax rate comparison */}
               {section.id === "tax" && (
                 <FadeSection delay={100}>
                   <div style={{ marginTop: 28, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 12, overflow: "hidden" }}>
@@ -244,8 +258,8 @@ export default function SpreadTherapyStocks({ onBack }) {
                     {[
                       { type: "Short-term (≤1 year)", rate: "~32%", color: "#ef4444", note: "Taxed as ordinary income" },
                       { type: "Long-term (>1 year)", rate: "15%", color: "#22c55e", note: "Preferred capital gains rate" },
-                      { type: "Index options (1256)", rate: "~19%", color: "#c9a84c", note: "60/40 LT/ST blend — automatic" },
-                      { type: "Roth IRA gains", rate: "0%", color: "#a855f7", note: "Tax-free growth forever" },
+                      { type: "Section 1256 — index options", rate: "~19%", color: "#c9a84c", note: "60/40 LT/ST blend — automatic" },
+                      { type: "Roth IRA gains", rate: "0%", color: "#a855f7", note: "Tax-free growth — no deductible losses" },
                     ].map((row, i) => (
                       <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 20px", borderBottom: i < 3 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
                         <div>
@@ -259,7 +273,6 @@ export default function SpreadTherapyStocks({ onBack }) {
                 </FadeSection>
               )}
 
-              {/* Wash sale summary */}
               {section.id === "wash_sale" && (
                 <FadeSection delay={100}>
                   <div style={{ marginTop: 28, background: "rgba(239,68,68,0.05)", border: "1px solid rgba(239,68,68,0.15)", borderRadius: 12, padding: 20 }}>
@@ -280,25 +293,24 @@ export default function SpreadTherapyStocks({ onBack }) {
                 </FadeSection>
               )}
 
-              {/* CTA */}
               {section.cta && (
                 <div style={{ marginTop: 44 }}>
-                  <div style={{ fontSize: 10, color: "#555", letterSpacing: 2, textTransform: "uppercase", marginBottom: 18 }}>Where would you like to go next?</div>
+                  <div style={{ fontSize: 10, color: "#555", letterSpacing: 2, textTransform: "uppercase", marginBottom: 18 }}>Continue to the next module</div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                     {NEXT_MODULES.map(mod => (
-                      <button key={mod.id} onClick={() => setSelectedNext(mod.id)} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 20px", borderRadius: 10, cursor: "pointer", background: selectedNext === mod.id ? "rgba(34,197,94,0.08)" : "rgba(255,255,255,0.02)", border: `1px solid ${selectedNext === mod.id ? "rgba(34,197,94,0.35)" : "rgba(255,255,255,0.06)"}`, textAlign: "left", fontFamily: "inherit", transition: "all 0.18s" }}>
+                      <button key={mod.id} onClick={() => onNavigate?.(mod.id)} aria-label={`Go to ${mod.title}`} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 20px", borderRadius: 10, cursor: "pointer", background: mod.recommended ? "rgba(34,197,94,0.08)" : "rgba(255,255,255,0.02)", border: `1px solid ${mod.recommended ? "rgba(34,197,94,0.35)" : "rgba(255,255,255,0.06)"}`, textAlign: "left", fontFamily: "inherit", transition: "all 0.18s", outline: "none", width: "100%" }}>
                         <div>
-                          <div style={{ fontSize: 9, color: selectedNext === mod.id ? "#22c55e" : "#444", letterSpacing: 2, marginBottom: 4 }}>{mod.label}</div>
-                          <div style={{ fontSize: 15, color: selectedNext === mod.id ? "#f0ede8" : "#888" }}>{mod.title}</div>
+                          <div style={{ fontSize: 9, color: mod.recommended ? "#22c55e" : "#444", letterSpacing: 2, marginBottom: 4 }}>{mod.label}{mod.recommended && " · RECOMMENDED"}</div>
+                          <div style={{ fontSize: 15, color: mod.recommended ? "#f0ede8" : "#888" }}>{mod.title}</div>
                           <div style={{ fontSize: 11, color: "#444", marginTop: 3 }}>{mod.desc}</div>
                         </div>
-                        <span style={{ fontSize: 18, color: selectedNext === mod.id ? "#22c55e" : "#333" }}>→</span>
+                        <span style={{ fontSize: 18, color: mod.recommended ? "#22c55e" : "#333" }}>→</span>
                       </button>
                     ))}
                   </div>
-                  {selectedNext && (
-                    <button style={{ width: "100%", marginTop: 14, padding: "15px", background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 10, color: "#22c55e", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}>Continue →</button>
-                  )}
+                  <p style={{ fontSize: 11, color: "#444", marginTop: 14, fontStyle: "italic" }}>
+                    Most readers continue to Module 2. If you already understand options basics, skip to Module 4 to see how stocks and options work together.
+                  </p>
                 </div>
               )}
             </div>
@@ -308,7 +320,7 @@ export default function SpreadTherapyStocks({ onBack }) {
 
       <div style={{ position: "fixed", left: "max(16px, calc(50% - 380px))", top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 6, opacity: 0.3 }}>
         {SECTIONS.map((s, i) => (
-          <div key={s.id} style={{ width: 3, height: progress > (i / SECTIONS.length) * 100 ? 18 : 7, background: "#22c55e", borderRadius: 2, transition: "height 0.3s ease", opacity: progress > (i / SECTIONS.length) * 100 ? 1 : 0.3 }} />
+          <div key={s.id} style={{ width: 3, height: i <= activeIndex ? 18 : 7, background: "#22c55e", borderRadius: 2, transition: "height 0.3s ease", opacity: i <= activeIndex ? 1 : 0.3 }} />
         ))}
       </div>
 
@@ -317,7 +329,12 @@ export default function SpreadTherapyStocks({ onBack }) {
         <div style={{ fontSize: 9, color: "#222" }}>Not financial advice</div>
       </div>
 
-      <style>{`* { box-sizing: border-box; margin: 0; padding: 0; } html { scroll-behavior: smooth; } body { background: #09090d; } p, h1, h2, button { margin: 0; } button { outline: none; } @media (max-width: 600px) { div[style*="padding: 60px 32px"] { padding: 40px 20px 48px !important; } div[style*="padding: 0 32px 80px"] { padding: 0 20px 60px !important; } }`}</style>
+      <style>{`
+        .st-stocks * { box-sizing: border-box; }
+        .st-stocks p, .st-stocks h1, .st-stocks h2, .st-stocks button { margin: 0; }
+        .st-stocks button:focus-visible { outline: 2px solid #22c55e; outline-offset: 2px; }
+        html { scroll-behavior: smooth; }
+      `}</style>
     </div>
   );
 }
