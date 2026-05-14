@@ -456,14 +456,18 @@ export default function App(){
 
   if(screen==="detail"&&selectedCampaign)return<div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"Georgia,serif",maxWidth:480,margin:"0 auto"}}><CampaignDetail c={selectedCampaign} onBack={handleBack}/></div>;
 
-  if(navTab==="learn"&&activeModule==="getting-started")return<Module00 onBack={handleModuleBack}/>;
-  if(navTab==="learn"&&activeModule==="stocks")return<Module01 onBack={handleModuleBack}/>;
-  if(navTab==="learn"&&activeModule==="options")return<Module02 onBack={handleModuleBack}/>;
-  if(navTab==="learn"&&activeModule==="spreads")return<Module03 onBack={handleModuleBack}/>;
-  if(navTab==="learn"&&activeModule==="together")return<Module04 onBack={handleModuleBack}/>;
-  if(navTab==="learn"&&activeModule==="margin")return<Module05 onBack={handleModuleBack}/>;
-  if(navTab==="learn"&&activeModule==="pricing")return<Module06 onBack={handleModuleBack}/>;
-  if(navTab==="learn"&&activeModule==="philosophy")return<Module07 onBack={handleModuleBack}/>;
+  const handleNavigate=(id)=>{
+    if(id==="quiz"){setNavTab("quiz");setActiveModule(null);}
+    else{setActiveModule(id);}
+  };
+  if(navTab==="learn"&&activeModule==="getting-started")return<Module00 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(navTab==="learn"&&activeModule==="stocks")return<Module01 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(navTab==="learn"&&activeModule==="options")return<Module02 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(navTab==="learn"&&activeModule==="spreads")return<Module03 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(navTab==="learn"&&activeModule==="together")return<Module04 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(navTab==="learn"&&activeModule==="margin")return<Module05 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(navTab==="learn"&&activeModule==="pricing")return<Module06 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(navTab==="learn"&&activeModule==="philosophy")return<Module07 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
 
   return(
     <div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"Georgia,serif",maxWidth:480,margin:"0 auto"}}>
