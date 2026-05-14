@@ -1,16 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 
-// ── CONTENT ───────────────────────────────────────────────────────────────────
 const SECTIONS = [
   {
     id: "opening",
     eyebrow: null,
-    title: "Why Options?",
-    subtitle: "A different question deserves a different answer.",
+    title: "Philosophy & Temperament",
     body: [
       "Most people who discover options trading ask the wrong question first. They ask: will this make me more money?",
-      "That question has an honest answer, and the honest answer is: sometimes yes, sometimes no, and often it depends on things you cannot control.",
-      "But there is a better question. And it leads somewhere more interesting.",
+      "That question has an honest answer. The honest answer is: sometimes yes, sometimes no, and often it depends on things you cannot control.",
       "The better question is: what do you actually want from your money? Not in the abstract. Not in theory. Right now, given your life, your age, your obligations, your fears — what do you want?",
       "Options do not give you a better answer to the wrong question. They give you tools to pursue the right answer to the right one.",
     ],
@@ -20,218 +17,208 @@ const SECTIONS = [
     eyebrow: "The Case Against Complexity",
     title: "Buy and Hold Is Not Wrong",
     body: [
-      "Let's be honest about something that most options educators will not say: buying and holding a diversified portfolio, patiently, through corrections and crashes, is a perfectly good strategy. For many people it is the right strategy.",
+      "Let us be clear about something most options educators will not say: buying and holding a diversified portfolio, patiently, through corrections and crashes, is a perfectly good strategy. For many people it is the right strategy.",
       "Markets go up over time. Those who are patient, who dollar-cost average through sell-offs, who resist the urge to react — they tend to do well. This is not a myth. It is one of the most robust findings in the history of finance.",
       "If someone told you to put your money in a broad index fund and check back in thirty years, that is not bad advice. It is, for a certain kind of person in a certain kind of situation, excellent advice.",
-      "We are not here to argue against that. We are here to argue that you are a person, not a strategy.",
+      "We are not here to argue against that. We are here to argue that you are a person, not a strategy. And what happened next proves why that distinction matters.",
     ],
   },
   {
-    id: "mu_cat",
-    eyebrow: "Two Stories",
-    title: "The MU Story and the CAT Story",
-    pullquote: "Made $577. Lost $16,523 I never knew I was losing.",
+    id: "mu_story",
+    eyebrow: "The First Campaign",
+    title: "MU — Patience, Then Options",
     body: [
-      "Consider two real campaigns from the same portfolio, running at roughly the same time.",
-      "The MU campaign began in July 2024 with shares purchased at an average cost of $121. Over the following ten months, covered calls were sold systematically — forty-seven legs across rolls, expirations, spreads, and one iron condor that taught an expensive lesson. The shares are now worth $765. The options activity generated thousands in premium. The true campaign P&L, the number the brokerage never shows, is over $55,000.",
-      "The CAT campaign ended differently. Cash-secured puts led to buying shares at prices higher than necessary. Covered calls capped the upside. When CAT ran from $740 to $911, the portfolio watched from the sidelines. The options activity generated $577. The opportunity cost was $16,523.",
-      "Both campaigns used the same strategies. Both were reasonable at the time. In retrospect, simple buy-and-hold would have outperformed both.",
-      "So why options at all?",
+      "The MU campaign began the way Module 1 says it should: with patience. Shares were purchased a few at a time through dollar-cost averaging. Twelve shares here. Eighteen there. Forty on a red day when the semiconductor sector was out of favor. Over months, the position grew until there were enough shares to write covered calls.",
+      "The average cost basis settled at $121. The entry was deliberate, disciplined, and driven by genuine conviction about the long-term demand for memory technology. Options were added on top of a position that already existed at a price the investor had chosen.",
+      "Then MU surged. The covered calls — which had been generating steady income — were suddenly in danger of being breached. The stock was running past the strikes.",
+      "This is the moment most covered call sellers panic. They let the shares get called away, take the profit, and start over. Or they freeze and watch the position move against them.",
+      "Instead, the calls were rolled. Up and out — to higher strikes, further expirations. It cost premium to roll. It felt uncomfortable. But it preserved the position. The shares stayed in the portfolio as MU climbed from $121 toward $787.",
+      "Forty-seven option legs. Rolls, expirations, adjustments. The total campaign P&L — including stock appreciation and all premiums collected — exceeded $55,000. Your brokerage never shows you that number. It shows you the stock price and a column of individual trade confirmations. You have to add it yourself.",
     ],
   },
   {
-    id: "context",
-    eyebrow: "The Context That Matters",
-    title: "We Didn't Know",
+    id: "cat_story",
+    eyebrow: "The Second Campaign",
+    title: "CAT — The Wheel Gone Wrong",
+    pullquote: "Made $577 in options income. Lost $16,523 I never knew I was losing. The strategy worked exactly as designed.",
     body: [
-      "In the summer of 2024, the AI trade was real but its trajectory was genuinely uncertain. Semiconductor stocks had run hard. CAT — indirectly tied to AI infrastructure through equipment demand for new data centers — was trading at prices that reflected significant optimism. Skepticism was reasonable. Caution was defensible.",
-      "Nobody knew that these stocks would continue to surge. The analysts who predicted a correction were not fools. The people who sold covered calls to generate income from positions they intended to hold long-term were not making mistakes.",
-      "They were managing risk under uncertainty. That is all any of us can do.",
-      "The point is not that options would have been better than buy-and-hold in these cases. In retrospect, they were not. The point is that the decision to use options was rational given what was known at the time — and that is the only standard by which any decision can be fairly judged.",
-      "Buy-and-hold requires certainty that the future will be good. Options allow you to act intelligently when you are not certain.",
+      "The CAT campaign began the way the internet says it should: with a cash-secured put. The wheel strategy. Sell a put on a stock you would be happy to own. If it stays above the strike, keep the premium. If it falls below, get assigned and start selling calls.",
+      "The put was assigned at an unfavorable strike — not a price chosen through conviction and patience, but a price set by the options market, by implied volatility and time decay and the mechanics of a contract. From day one, the position was at a cost basis that conviction did not support.",
+      "Then CAT surged. From $740 to $911. And every covered call sold against those wheel-assigned shares capped the move.",
+      "Here is what that actually felt like: every morning, you open the account. CAT is at $820. Your calls cap you at $770. The stock is up another $8 overnight. Your P&L is flat. The next morning, $835. Your cap is still $770. You have owned this stock through a $95 move and captured none of it. You did everything right. You sold the puts. You took assignment. You sold the calls. The wheel turned. And the result was worse — substantially worse — than doing nothing.",
+      "Total options income from the entire CAT campaign: $577.",
+      "Opportunity cost from capped upside on a stock that ran 23%: $16,523.",
+      "The wheel worked mechanically. Every step executed as designed. Puts were sold, shares were assigned, calls were written. The strategy did exactly what it was supposed to do. And it was the wrong strategy for a stock with that much momentum, entered at a price that conviction did not support.",
     ],
   },
   {
-    id: "philosophy",
-    eyebrow: "The Core Idea",
-    title: "Managing Risk Is Not Avoiding It",
-    pullquote: "Instead of either avoiding risk or accepting it blindly — we can manage it.",
+    id: "uncertainty",
+    eyebrow: "What It Feels Like",
+    title: "Uncertainty Is Not a Concept. It Is a Tuesday.",
     body: [
-      "Most investors operate in one of two modes. Either they avoid risk — keeping money in cash, bonds, stable assets — or they accept it, buying stocks and hoping for the best. These are both legitimate choices. But they are not the only choices.",
-      "Options introduce a third mode: management.",
-      "To manage risk is to understand what you are actually exposed to, to decide deliberately how much of that exposure you want to carry, to collect compensation for carrying it, and to retain the ability to change your mind.",
-      "When you sell a put, you are not gambling. You are saying: I am willing to buy this stock at this price if it falls to here. Someone else is paying you for that commitment. You know exactly what the worst case looks like. You have made a deliberate, bounded, compensated decision.",
-      "That is fundamentally different from simply holding a stock and hoping. Both involve risk. Only one involves management.",
+      "In the summer of 2024, nobody knew. That sentence is easy to write now. It was not easy to live through.",
+      "The AI trade was real but its trajectory was genuinely uncertain. Semiconductor stocks had run hard — were they overextended or just getting started? CAT was trading at prices that reflected significant optimism about construction and infrastructure — was that optimism justified or was it a bubble?",
+      "Every morning you check the positions. Every morning you make a decision: hold, adjust, or close. And every morning you are making that decision with incomplete information, against a backdrop of analysts disagreeing with each other, markets moving on news you cannot predict, and your own emotions telling you contradictory things.",
+      "The people who sold covered calls to generate income from positions they intended to hold long-term were not making mistakes. They were managing risk under uncertainty. That is all any of us can do.",
+      "The point is not that options would have been better than buy-and-hold. In retrospect, for MU in that specific window, they were not. The point is that the decision to use options was rational given what was known at the time. And that is the only standard by which any decision can be fairly judged.",
     ],
   },
   {
-    id: "tools",
-    eyebrow: "What Options Actually Provide",
-    title: "Tools for Every Market",
+    id: "iron_condor",
+    eyebrow: "The Turn",
+    title: "The Trade That Built the Framework",
     body: [
-      "A rising market rewards patience. Options allow you to add income to patience — selling covered calls against shares you already own, collecting premium while the stock climbs.",
-      "A flat market punishes patience. Options allow you to generate income from inaction — selling puts and spreads on stocks that aren't moving, harvesting premium from time and volatility.",
-      "A falling market destroys passive portfolios. Options allow you to protect, hedge, and even profit — buying puts, constructing crash shields, positioning for re-entry exactly when everyone else is panicking.",
-      "A volatile market creates anxiety. Options allow you to understand it — because volatility is not the enemy of options traders. It is the raw material.",
-      "No single stock strategy works in all four environments. Options give you a different tool for each.",
+      "Somewhere in the middle of the MU campaign, an insight formed: spreads were a more efficient way to leverage the volatility of an asset already owned. Instead of tying up all available capital in covered calls on one stock, defined-risk spreads could generate income from the same volatility with a fraction of the capital at risk.",
+      "The insight was correct. The execution was not.",
+      "The iron condor entered on MU had strikes that were too aggressive — too close to the current price, leaving insufficient buffer for a stock that moved as much as MU did. And the position size was too large. Too many contracts for the account. What would later become the 5% rule was violated before the rule existed.",
+      "What was needed in that moment was an objective voice. Not a guru. Not a course. A voice saying: your delta is too high. Your width is too narrow. You are risking 12% of your account on one position. Close the excess contracts. Widen the strikes. Respect the buffer.",
+      "That voice did not exist. No broker provides it. No YouTube channel provides it in real time, for your specific position, with your specific account size. No friend has both the knowledge and the willingness to say: this trade violates three rules simultaneously.",
+      "Finding no coach, I built one.",
     ],
   },
   {
-    id: "people",
-    eyebrow: "The Human Side of the Trade",
-    title: "Two People, One Trade",
-    pullquote: "Every option trade requires someone on the other side. That person is not your enemy.",
+    id: "origin",
+    eyebrow: "The Framework",
+    title: "Every Rule Is Autobiographical",
     body: [
-      "Here is something the financial media never explains clearly: every options trade is a transaction between two people with different needs.",
-      "When you sell a put on a stock you want to own at a lower price, someone else is buying that put. That person may think the stock is going to fall. Or they may own the stock and want downside protection. Or they may be a fund manager managing regulatory requirements you will never fully understand.",
-      "They are not wrong and you are not right. You have different situations, different timelines, different needs. The CBOE exists precisely to connect people like you with people like them, so that each can pursue their own strategy.",
-      "Consider: a twenty-three-year-old with no dependents and a high risk tolerance has a completely different relationship with volatility than a sixty-year-old preparing to retire in three years. Both of them can use options. Both of them should. And when they trade with each other, both of them benefit.",
-      "Options are not a zero-sum game dressed up in complexity. They are a mechanism for matching people who have different things to offer each other.",
+      "Spread Therapy is the framework I needed in the summer of 2024. The scoring system. The hard stops. The position-sizing rules. The management cadence. The entry criteria that would have prevented the CAT wheel from ever starting.",
+      "The 5% OTM minimum exists because of the RUTW 2770/2750 trade that entered at 1.9% OTM and nearly failed. The position-sizing rule exists because of MU. The close-at-50%-profit rule exists because of trades where profits were watched evaporating over days that should have been closed in hours. The hard stop on delta exists because of IONQ.",
+      "The framework is not theoretical. It is not derived from a textbook. It is the accumulated scar tissue of a real portfolio, organized into rules that prevent the same mistakes from happening twice.",
+      "And the question it answers is not 'will options make you more money?' It is: 'given that you have decided to use options, how do you avoid the specific mistakes that destroy accounts?'",
     ],
   },
   {
-    id: "individual",
-    eyebrow: "The Spread Therapy Philosophy",
-    title: "There Is No Strategy for Everyone",
+    id: "dealer",
+    eyebrow: "Capital Efficiency",
+    title: "Think Like a Dealer, Not a Buyer",
+    pullquote: "The same capital that lets you buy one car to use could let you purchase ten cars to sell to others. Now you are a dealer.",
     body: [
-      "Buy-and-hold is one strategy applied the same way by everyone. That is both its strength and its limitation. It does not ask who you are. It does not care about your income, your obligations, your timeline, your temperament.",
-      "Options ask all of those questions. And they provide different answers for different people.",
-      "If you are cautious, options let you define exactly how much risk you carry. If you are aggressive, options let you amplify. If you need income now, options let you generate it. If you are patient, options let you be compensated for your patience. If you are wrong, options let you correct your position — not erase the mistake, but change your exposure before it becomes a catastrophe.",
-      "This is what we mean when we say options are tools for managing risk. Not a magic system. Not a guaranteed edge. Tools. The same way a hammer is a tool — powerful in the hands of someone who understands it, dangerous in the hands of someone who does not.",
-      "Spread Therapy exists to make sure you are the former.",
+      "Spreads are the right tool. But why?",
+      "Suppose you want to buy a car. You leverage the capital you have to qualify for a loan. The vehicle adds value to your life — it gets you to work, it drives your children to school. You have deployed capital into one asset. You hope it appreciates. The capital is committed.",
+      "Now imagine a different scenario. You do not plan to use the vehicle. You plan to sell it. You lock in a purchase price and you have already locked in a sale. You are risking less capital per transaction, which allows you to scale. The same capital that would let you buy one vehicle to drive could let you purchase ten vehicles to sell to others.",
+      "Now you are a dealer. You are not in the transportation business. You are in the transaction business.",
+      "Credit spreads work the same way. Instead of tying up $50,000 in collateral to sell one naked put — buying one car to drive — you tie up $1,000 per spread and run fifty positions. More transactions. More business. More opportunities for your edge to compound.",
+    ],
+  },
+  {
+    id: "efficiency_tradeoff",
+    eyebrow: "The Honest Tradeoff",
+    title: "Efficiency Is Not Free",
+    body: [
+      "Transacting more business is not automatically better. It will not necessarily make you richer. Trading spreads does not mean being right no longer matters. It is still better to be right.",
+      "But there are structural advantages to capital efficiency.",
+      "Diversification: credit spreads tie up less capital than naked puts. Instead of selling one put on one stock, you can sell spreads on four different underlyings with the same collateral. One bad earnings report does not destroy your month.",
+      "Concentration when you have conviction: you can also sell four spreads on the same underlying. If you believe the Russell 2000 is not going to fall 5% in the next 30 days, you can express that belief four times instead of once.",
+      "The honest tradeoff: if you are right, efficiency makes you richer faster. If you are wrong, efficiency makes you poorer faster. Spreads do not eliminate the need to be right. They amplify the consequences — in both directions.",
+      "So the question becomes: do you have a framework that helps you be right more often than you are wrong? If yes, capital efficiency is your greatest advantage. If no, it is a loaded weapon pointed at your account.",
+      "That is why the framework comes first. Not the trades. The framework.",
     ],
   },
   {
     id: "closing",
     eyebrow: null,
-    title: "Ready to Begin?",
+    title: "You Have Everything You Need",
     body: [
-      "You have now read the philosophy. The rest is mechanics — and the mechanics matter enormously. But you will learn them differently now, because you understand what they are for.",
-      "They are not tricks. They are not secrets. They are instruments of precision that allow you to act deliberately in a world that does not cooperate with anyone's plans.",
-      "Let's build your foundation.",
+      "Seven modules. A philosophy built on real trades — some that worked brilliantly, some that failed instructively. A framework that exists because no one else was going to build it for you.",
+      "You understand stocks as a foundation. Options as tools. Spreads as capital efficiency. The Greeks as a dashboard. Position sizing as survival. And now the why behind all of it.",
+      "What remains is practice. Paper trade until the rules feel automatic. Take the assessment to find your gaps. Then — when the checklist is complete, when the knowledge is internalized, when you trust the process because you understand it — deploy real capital.",
+      "Not with hope. With preparation. Not with excitement. With discipline. Not because options will make you rich. Because you have built something most traders never build: a system that tells you what to do, when to do it, and when to stop.",
+      "The market will be open tomorrow. You are ready for it.",
     ],
     cta: true,
   },
 ];
 
-// ── READING PROGRESS ──────────────────────────────────────────────────────────
+const NEXT_MODULES = [
+  { id: "getting-started", label: "Before You Begin", title: "Getting Started", desc: "The checklist, account setup, and everything before your first trade.", recommended: true },
+  { id: "stocks", label: "Module 1", title: "Stocks", desc: "Begin the technical journey — what to own and why it matters.", recommended: false },
+  { id: "quiz", label: "Assessment", title: "Take the Quiz", desc: "Find your knowledge gaps before your first real trade.", recommended: false },
+];
+
 function useReadingProgress() {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
+    let raf;
     const update = () => {
       const el = document.documentElement;
       const scrollTop = el.scrollTop || document.body.scrollTop;
       const scrollHeight = el.scrollHeight - el.clientHeight;
       setProgress(scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0);
     };
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(() => { update(); raf = null; }); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return progress;
 }
 
-// ── FADE IN OBSERVER ──────────────────────────────────────────────────────────
+function useSectionProgress() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const refs = useRef([]);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => { entries.forEach(entry => { if (entry.isIntersecting) { const idx = refs.current.indexOf(entry.target); if (idx >= 0) setActiveIndex(idx); } }); },
+      { threshold: 0.3 }
+    );
+    refs.current.forEach(el => { if (el) obs.observe(el); });
+    return () => obs.disconnect();
+  }, []);
+  return { activeIndex, refs };
+}
+
 function FadeSection({ children, delay = 0 }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const obs = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
   return (
-    <div ref={ref} style={{
-      opacity: visible ? 1 : 0,
-      transform: visible ? "translateY(0)" : "translateY(24px)",
-      transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
-    }}>
+    <div ref={ref} style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms` }}>
       {children}
     </div>
   );
 }
 
-// ── MAIN ──────────────────────────────────────────────────────────────────────
-export default function SpreadTherapyPhilosophy({ onBack }) {
+export default function Module07({ onBack, onNavigate }) {
   const progress = useReadingProgress();
-  const [moduleComplete, setModuleComplete] = useState(false);
-  const [selectedNext, setSelectedNext] = useState(null);
-
-  const NEXT_MODULES = [
-    { id: "pricing", label: "Module 6", title: "Pricing & Control", desc: "Understand what your position is worth — and how to change it." },
-    { id: "spreads", label: "Module 3", title: "Spreads", desc: "Why spreads beat naked options on every dimension that matters." },
-    { id: "quiz", label: "Assessment", title: "Take the Quiz", desc: "Find out where your knowledge gaps are before your next trade." },
-  ];
+  const { activeIndex, refs } = useSectionProgress();
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "#09090d",
-      color: "#e8e4df",
-      fontFamily: "'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif",
-      maxWidth: 680,
-      margin: "0 auto",
-      position: "relative",
-    }}>
+    <div className="st-philosophy" style={{ minHeight: "100vh", background: "#09090d", color: "#e8e4df", fontFamily: "'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif", maxWidth: 680, margin: "0 auto", position: "relative" }}>
 
-      {/* Reading progress bar */}
-      <div style={{
-        position: "fixed", top: 0, left: 0, right: 0, height: 2, zIndex: 100,
-        background: "rgba(255,255,255,0.04)",
-      }}>
-        <div style={{
-          height: "100%", background: "#c9a84c",
-          width: `${progress}%`, transition: "width 0.1s linear",
-        }} />
+      <div role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin={0} aria-valuemax={100} aria-label="Reading progress" style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, zIndex: 100, background: "rgba(255,255,255,0.04)" }}>
+        <div style={{ height: "100%", background: "#c9a84c", width: `${progress}%`, transition: "width 0.1s linear" }} />
       </div>
 
-      {/* Module nav pill */}
-      <div style={{
-        position: "fixed", top: 16, right: 16, zIndex: 99,
-        background: "rgba(12,12,18,0.92)", backdropFilter: "blur(12px)",
-        border: "1px solid rgba(255,255,255,0.07)",
-        borderRadius: 20, padding: "6px 14px",
-        display: "flex", alignItems: "center", gap: 8,
-      }}>
-        <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c" }} />
-        <span style={{ fontSize: 10, color: "#c9a84c", letterSpacing: 2 }}>MODULE 7</span>
+      <div style={{ position: "fixed", top: 16, left: 16, right: 16, zIndex: 99, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        {onBack && (
+          <button onClick={onBack} aria-label="Back to Learn Hub" style={{ background: "rgba(12,12,18,0.92)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, padding: "6px 14px", cursor: "pointer", color: "#c9a84c", fontSize: 12, fontFamily: "inherit", letterSpacing: 1 }}>← Back</button>
+        )}
+        <div style={{ background: "rgba(12,12,18,0.92)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, padding: "6px 14px", display: "flex", alignItems: "center", gap: 8, marginLeft: "auto" }}>
+          <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c" }} />
+          <span style={{ fontSize: 10, color: "#c9a84c", letterSpacing: 2 }}>MODULE 07</span>
+        </div>
       </div>
 
-      {/* ── HERO ── */}
       <div style={{ padding: "80px 32px 64px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         <FadeSection>
-          <div style={{ fontSize: 10, color: "#c9a84c", letterSpacing: 4, textTransform: "uppercase", marginBottom: 20 }}>
-            Spread Therapy · Options Philosophy
-          </div>
+          <div style={{ fontSize: 10, color: "#c9a84c", letterSpacing: 4, textTransform: "uppercase", marginBottom: 20 }}>Spread Therapy · Philosophy</div>
         </FadeSection>
         <FadeSection delay={100}>
-          <h1 style={{
-            fontSize: "clamp(36px, 8vw, 56px)",
-            fontWeight: "normal",
-            lineHeight: 1.1,
-            letterSpacing: "-0.02em",
-            marginBottom: 24,
-            color: "#f5f1eb",
-          }}>
-            Why Options?
-          </h1>
+          <h1 style={{ fontSize: "clamp(36px, 8vw, 56px)", fontWeight: "normal", lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 24, color: "#f5f1eb" }}>Philosophy &<br />Temperament</h1>
         </FadeSection>
         <FadeSection delay={200}>
-          <p style={{
-            fontSize: 18, color: "#777", lineHeight: 1.7,
-            fontStyle: "italic", maxWidth: 480,
-            borderLeft: "2px solid rgba(201,168,76,0.3)",
-            paddingLeft: 20,
-          }}>
-            Not because they always make more money. Because they give every person — regardless of age, risk tolerance, or financial situation — the tools to pursue their own strategy.
+          <p style={{ fontSize: 18, color: "#777", lineHeight: 1.7, fontStyle: "italic", maxWidth: 480, borderLeft: "2px solid rgba(201,168,76,0.3)", paddingLeft: 20 }}>
+            Not because options always make more money. Because they give every person — regardless of situation — the tools to pursue their own strategy.
           </p>
         </FadeSection>
-
-        {/* Estimated read */}
         <FadeSection delay={300}>
-          <div style={{ display: "flex", gap: 20, marginTop: 32 }}>
+          <div style={{ display: "flex", gap: 20, marginTop: 32, flexWrap: "wrap" }}>
             {[["7 min read", "◷"], ["Module 7 of 7", "◎"], ["Philosophy", "◈"]].map(([label, icon]) => (
               <div key={label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <span style={{ fontSize: 11, color: "#444" }}>{icon}</span>
@@ -242,113 +229,80 @@ export default function SpreadTherapyPhilosophy({ onBack }) {
         </FadeSection>
       </div>
 
-      {/* ── CONTENT ── */}
       <div style={{ padding: "0 32px 80px" }}>
         {SECTIONS.map((section, si) => (
           <FadeSection key={section.id} delay={si * 50}>
-            <div style={{
-              padding: "52px 0",
-              borderBottom: si < SECTIONS.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
-            }}>
+            <div ref={el => refs.current[si] = el} style={{ padding: "52px 0", borderBottom: si < SECTIONS.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
 
-              {/* Eyebrow */}
               {section.eyebrow && (
-                <div style={{
-                  fontSize: 10, color: "#c9a84c", letterSpacing: 3,
-                  textTransform: "uppercase", marginBottom: 14,
-                }}>
-                  {section.eyebrow}
-                </div>
+                <div style={{ fontSize: 10, color: "#c9a84c", letterSpacing: 3, textTransform: "uppercase", marginBottom: 14 }}>{section.eyebrow}</div>
               )}
 
-              {/* Section title */}
-              {section.title !== "Why Options?" && (
-                <h2 style={{
-                  fontSize: "clamp(22px, 5vw, 30px)",
-                  fontWeight: "normal",
-                  lineHeight: 1.2,
-                  letterSpacing: "-0.01em",
-                  color: "#f0ede8",
-                  marginBottom: 28,
-                }}>
-                  {section.title}
-                </h2>
+              {section.title !== "Philosophy & Temperament" && (
+                <h2 style={{ fontSize: "clamp(22px, 5vw, 30px)", fontWeight: "normal", lineHeight: 1.2, letterSpacing: "-0.01em", color: "#f0ede8", marginBottom: 28 }}>{section.title}</h2>
               )}
 
-              {/* Pull quote */}
               {section.pullquote && (
-                <div style={{
-                  margin: "0 0 32px",
-                  padding: "20px 24px",
-                  background: "rgba(201,168,76,0.05)",
-                  borderLeft: "3px solid #c9a84c",
-                  borderRadius: "0 8px 8px 0",
-                }}>
-                  <p style={{
-                    fontSize: 18, color: "#c9a84c",
-                    fontStyle: "italic", lineHeight: 1.5,
-                    margin: 0,
-                  }}>
-                    "{section.pullquote}"
-                  </p>
+                <div style={{ margin: "0 0 32px", padding: "20px 24px", background: "rgba(201,168,76,0.05)", borderLeft: "3px solid #c9a84c", borderRadius: "0 8px 8px 0" }}>
+                  <p style={{ fontSize: 18, color: "#c9a84c", fontStyle: "italic", lineHeight: 1.5, margin: 0 }}>"{section.pullquote}"</p>
                 </div>
               )}
 
-              {/* Body paragraphs */}
               <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                 {section.body.map((para, pi) => (
-                  <p key={pi} style={{
-                    fontSize: 16, lineHeight: 1.85,
-                    color: pi === 0 ? "#c8c4be" : "#888",
-                    margin: 0,
-                  }}>
-                    {para}
-                  </p>
+                  <p key={pi} style={{ fontSize: 16, lineHeight: 1.9, color: pi === 0 ? "#c8c4be" : "#888", margin: 0 }}>{para}</p>
                 ))}
               </div>
 
-              {/* CTA section */}
+              {section.id === "cat_story" && (
+                <FadeSection delay={100}>
+                  <div style={{ marginTop: 28, background: "rgba(239,68,68,0.05)", border: "1px solid rgba(239,68,68,0.15)", borderRadius: 12, padding: 20 }}>
+                    <div style={{ fontSize: 10, color: "#ef4444", letterSpacing: 2, marginBottom: 14 }}>THE CAT CAMPAIGN — FINAL LEDGER</div>
+                    {[
+                      { label: "Options income collected", value: "+$577", color: "#22c55e" },
+                      { label: "CAT appreciation (uncapped)", value: "+$17,100", color: "#888", note: "$740 → $911 on 100 shares" },
+                      { label: "CAT appreciation (captured)", value: "+$0", color: "#888", note: "Calls capped every dollar of the move" },
+                      { label: "Opportunity cost", value: "-$16,523", color: "#ef4444" },
+                      { label: "Net vs doing nothing", value: "-$15,946", color: "#ef4444" },
+                    ].map((row, i) => (
+                      <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", padding: "10px 0", borderBottom: i < 4 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
+                        <div>
+                          <div style={{ fontSize: 12, color: "#777" }}>{row.label}</div>
+                          {row.note && <div style={{ fontSize: 10, color: "#444", marginTop: 2 }}>{row.note}</div>}
+                        </div>
+                        <span style={{ fontSize: 14, color: row.color, fontFamily: "monospace", flexShrink: 0, marginLeft: 16 }}>{row.value}</span>
+                      </div>
+                    ))}
+                    <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid rgba(255,255,255,0.06)", fontSize: 11, color: "#444", fontStyle: "italic", lineHeight: 1.6 }}>
+                      The strategy worked exactly as designed. That was the problem.
+                    </div>
+                  </div>
+                </FadeSection>
+              )}
+
               {section.cta && (
                 <div style={{ marginTop: 48 }}>
-                  <div style={{ fontSize: 10, color: "#555", letterSpacing: 2, textTransform: "uppercase", marginBottom: 20 }}>
-                    Where would you like to go next?
-                  </div>
+                  <div style={{ fontSize: 10, color: "#555", letterSpacing: 2, textTransform: "uppercase", marginBottom: 20 }}>Where would you like to go next?</div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                     {NEXT_MODULES.map(mod => (
                       <button
                         key={mod.id}
-                        onClick={() => setSelectedNext(mod.id)}
-                        style={{
-                          display: "flex", justifyContent: "space-between", alignItems: "center",
-                          padding: "16px 20px", borderRadius: 10, cursor: "pointer",
-                          background: selectedNext === mod.id ? "rgba(201,168,76,0.1)" : "rgba(255,255,255,0.03)",
-                          border: `1px solid ${selectedNext === mod.id ? "rgba(201,168,76,0.4)" : "rgba(255,255,255,0.07)"}`,
-                          textAlign: "left", fontFamily: "inherit",
-                          transition: "all 0.18s",
-                        }}
+                        onClick={() => onNavigate?.(mod.id)}
+                        aria-label={`Go to ${mod.title}`}
+                        style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 20px", borderRadius: 10, cursor: "pointer", background: mod.recommended ? "rgba(201,168,76,0.08)" : "rgba(255,255,255,0.02)", border: `1px solid ${mod.recommended ? "rgba(201,168,76,0.35)" : "rgba(255,255,255,0.06)"}`, textAlign: "left", fontFamily: "inherit", transition: "all 0.18s", outline: "none", width: "100%" }}
                       >
                         <div>
-                          <div style={{ fontSize: 9, color: selectedNext === mod.id ? "#c9a84c" : "#444", letterSpacing: 2, marginBottom: 4 }}>{mod.label}</div>
-                          <div style={{ fontSize: 15, color: selectedNext === mod.id ? "#f0ede8" : "#888" }}>{mod.title}</div>
+                          <div style={{ fontSize: 9, color: mod.recommended ? "#c9a84c" : "#444", letterSpacing: 2, marginBottom: 4 }}>{mod.label}{mod.recommended && " · RECOMMENDED"}</div>
+                          <div style={{ fontSize: 15, color: mod.recommended ? "#f0ede8" : "#888" }}>{mod.title}</div>
                           <div style={{ fontSize: 11, color: "#444", marginTop: 3 }}>{mod.desc}</div>
                         </div>
-                        <span style={{ fontSize: 18, color: selectedNext === mod.id ? "#c9a84c" : "#333" }}>→</span>
+                        <span style={{ fontSize: 18, color: mod.recommended ? "#c9a84c" : "#333" }}>→</span>
                       </button>
                     ))}
                   </div>
-                  {selectedNext && (
-                    <button style={{
-                      width: "100%", marginTop: 16, padding: "15px",
-                      background: "rgba(201,168,76,0.12)",
-                      border: "1px solid rgba(201,168,76,0.35)",
-                      borderRadius: 10, color: "#c9a84c",
-                      fontSize: 14, cursor: "pointer",
-                      fontFamily: "inherit", letterSpacing: 0.5,
-                      transition: "all 0.2s",
-                    }}>
-                      Continue →
-                    </button>
-                  )}
+                  <p style={{ fontSize: 11, color: "#444", marginTop: 14, fontStyle: "italic" }}>
+                    You have completed all seven modules. Return to Getting Started to work through the setup checklist, or take the assessment to find your knowledge gaps.
+                  </p>
                 </div>
               )}
             </div>
@@ -356,45 +310,24 @@ export default function SpreadTherapyPhilosophy({ onBack }) {
         ))}
       </div>
 
-      {/* ── SIDE DECORATION — desktop only ── */}
-      <div style={{
-        position: "fixed", left: "max(16px, calc(50% - 380px))", top: "50%",
-        transform: "translateY(-50%)",
-        display: "flex", flexDirection: "column", gap: 6,
-        opacity: 0.3,
-      }}>
+      <div style={{ position: "fixed", left: "max(16px, calc(50% - 380px))", top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 6, opacity: 0.3 }}>
         {SECTIONS.map((s, i) => (
-          <div key={s.id} style={{
-            width: 3, height: progress > (i / SECTIONS.length) * 100 ? 20 : 8,
-            background: "#c9a84c",
-            borderRadius: 2, transition: "height 0.3s ease",
-            opacity: progress > (i / SECTIONS.length) * 100 ? 1 : 0.3,
-          }} />
+          <div key={s.id} style={{ width: 3, height: i <= activeIndex ? 20 : 8, background: "#c9a84c", borderRadius: 2, transition: "height 0.3s ease", opacity: i <= activeIndex ? 1 : 0.3 }} />
         ))}
       </div>
 
-      {/* ── FOOTER ── */}
-      <div style={{
-        padding: "24px 32px",
-        borderTop: "1px solid rgba(255,255,255,0.04)",
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-      }}>
-        <div style={{ fontSize: 9, color: "#222", letterSpacing: 2 }}>SPREAD THERAPY · MODULE 7</div>
+      <div style={{ padding: "24px 32px", borderTop: "1px solid rgba(255,255,255,0.04)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ fontSize: 9, color: "#222", letterSpacing: 2 }}>SPREAD THERAPY · MODULE 07</div>
         <div style={{ fontSize: 9, color: "#222" }}>Not financial advice</div>
       </div>
 
       <style>{`
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        .st-philosophy * { box-sizing: border-box; }
+        .st-philosophy p, .st-philosophy h1, .st-philosophy h2, .st-philosophy button { margin: 0; }
+        .st-philosophy button:focus-visible { outline: 2px solid #c9a84c; outline-offset: 2px; }
         html { scroll-behavior: smooth; }
-        body { background: #09090d; }
-        p { margin: 0; }
-        h1, h2 { margin: 0; }
-        button { outline: none; }
-
         @media (max-width: 600px) {
-          div[style*="padding: 80px 32px"] { padding: 56px 20px 48px !important; }
-          div[style*="padding: 0 32px 80px"] { padding: 0 20px 60px !important; }
-          div[style*="padding: 24px 32px"] { padding: 20px !important; }
+          .st-philosophy { padding-left: 0 !important; padding-right: 0 !important; }
         }
       `}</style>
     </div>
