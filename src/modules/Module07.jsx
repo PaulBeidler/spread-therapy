@@ -56,11 +56,11 @@ const SECTIONS = [
     eyebrow: "What It Feels Like",
     title: "Uncertainty Is Not a Concept. It Is a Tuesday.",
     body: [
-      "In the summer of 2024, nobody knew. That sentence is easy to write now. It was not easy to live through.",
-      "The AI trade was real but its trajectory was genuinely uncertain. Semiconductor stocks had run hard — were they overextended or just getting started? CAT was trading at prices that reflected significant optimism about construction and infrastructure — was that optimism justified or was it a bubble?",
-      "Every morning you check the positions. Every morning you make a decision: hold, adjust, or close. And every morning you are making that decision with incomplete information, against a backdrop of analysts disagreeing with each other, markets moving on news you cannot predict, and your own emotions telling you contradictory things.",
-      "The people who sold covered calls to generate income from positions they intended to hold long-term were not making mistakes. They were managing risk under uncertainty. That is all any of us can do.",
-      "The point is not that options would have been better than buy-and-hold. In retrospect, for MU in that specific window, they were not. The point is that the decision to use options was rational given what was known at the time. And that is the only standard by which any decision can be fairly judged.",
+      "You open the account. CAT is at $835. Your calls cap you at $770. The stock is up again. Your P&L is flat. You did everything right yesterday and the day before. You are doing everything right today. And the result is the same: flat.",
+      "You do not know if CAT will keep running. Nobody does. The analysts who cover it professionally disagree with each other. The market is pricing in optimism about infrastructure spending that may or may not materialize. The Fed may move. The sector may rotate. A competitor may announce something.",
+      "You have a position. It has rules. You follow them. And then you close the laptop and go to work and come home and open it again the next morning and do it again.",
+      "That is what uncertainty actually is. Not a philosophical condition. Not a risk factor in a prospectus. A Tuesday. And then a Wednesday. And then another Tuesday.",
+      "The traders who survive this are not the ones who find a way to eliminate the uncertainty. They are the ones who build a framework robust enough to function inside it — and then follow the framework on the days when following it feels pointless.",
     ],
   },
   {
