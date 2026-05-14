@@ -5,11 +5,23 @@ const SECTIONS = [
     id: "opening",
     eyebrow: null,
     title: "Options",
-    subtitle: "A contract is not a stock. Understanding the difference changes everything.",
     body: [
-      "When you buy a share of stock, you own something. A piece of a company. If the company does well, your piece is worth more. If it does poorly, less. Simple.",
-      "An option is different. An option is a contract between two people. One person has a right. The other has an obligation. And someone gets paid for taking on that obligation.",
-      "That payment — the premium — is the engine of everything we do.",
+      "There is a difference between owning something, being obliged to own it, and having the option of maybe owning it.",
+      "Owning something means that thing is your responsibility. It is tied to you. You maintain it, you worry about it, you benefit from it, you suffer when it declines. Ownership is a commitment.",
+      "Having the option to own it is different. That is freedom. You can purchase the thing — giving up the right to not own it — or you can purchase the right to purchase it. The latter means two things: you keep more of your money, and you keep your freedom.",
+      "A third possibility: you can, without owning the thing, be contractually obliged to own it later. There is no freedom in that obligation. But you can get paid to take it on.",
+      "These three relationships — ownership, freedom, obligation — are the entire foundation of options trading.",
+    ],
+  },
+  {
+    id: "not_better",
+    eyebrow: "A Necessary Clarification",
+    title: "None of These Is Better",
+    pullquote: "The option to buy or sell a thing is not better than buying or selling it. It is also not worse. But it is different — and that difference is everything.",
+    body: [
+      "The option to buy or sell a thing is not better than buying or selling that thing. The option is also not worse than owning it. Owning stock is not inferior to trading options on it.",
+      "But two things are true. The option exists. And it is different.",
+      "Different means it has different properties, different costs, different risks, and different uses. This module explores those differences. It does not rank them. The framework uses both stocks and options because they serve different purposes — not because one is better than the other.",
     ],
   },
   {
@@ -26,14 +38,13 @@ const SECTIONS = [
   {
     id: "bullbear",
     eyebrow: "Direction",
-    title: "Bullish and Bearish",
-    pullquote: "Calls are bullish. Puts are bearish. But selling reverses the direction.",
+    title: "Selling Reverses Everything",
+    pullquote: "The same instrument can express completely opposite views depending on whether you are buying or selling it.",
     body: [
-      "If you buy a call, you are bullish — you want the stock to go up.",
-      "If you buy a put, you are bearish — you want the stock to go down.",
-      "But selling reverses everything. If you sell a call, you want the stock to stay below the strike — you are neutral to bearish. If you sell a put, you want the stock to stay above the strike — you are neutral to bullish.",
-      "This is one of the most important insights in options trading: the same instrument can express completely opposite views depending on whether you are buying or selling it.",
+      "Calls are bullish when you buy them — you want the stock to rise. Puts are bearish when you buy them — you want the stock to fall. But selling reverses everything, and that reversal is the non-obvious insight that makes this framework work.",
+      "If you sell a call, you want the stock to stay below the strike — you are neutral to bearish. If you sell a put, you want the stock to stay above the strike — you are neutral to bullish.",
       "Spread Therapy is primarily a selling framework. We sell puts when we are bullish. We sell calls when we think the market is extended. We collect premium and let time work in our favor.",
+      "This means we profit when the stock does nothing, moves slightly in our direction, or even moves slightly against us — as long as it does not breach our strike. We do not need to be right about direction. We need to be right about boundaries.",
     ],
   },
   {
@@ -48,26 +59,15 @@ const SECTIONS = [
     ],
   },
   {
-    id: "naked_covered",
-    eyebrow: "Covered vs Naked",
-    title: "Covered and Naked",
-    body: [
-      "A covered call is an option sold against shares you already own. If you own 100 shares of RTX and sell a call, the worst case is that your shares get called away at the strike price. You are covered — the shares back the obligation.",
-      "A naked option is sold without that backing. A naked put obligates you to buy shares if the stock falls to the strike. You need the cash or margin to do that. A naked call — selling a call without owning the shares — has theoretically unlimited risk if the stock surges.",
-      "The Spread Therapy framework strongly prefers covered positions and defined-risk spreads over naked options. Not because naked options are always wrong, but because spreads use far less collateral and cap your maximum loss precisely.",
-    ],
-  },
-  {
     id: "american_european",
     eyebrow: "Exercise Style",
     title: "American vs European — Why It Matters",
-    pullquote: "European-style options cannot be exercised early. This is a significant advantage for spread sellers.",
+    pullquote: "European-style options cannot be exercised early. This is a significant operational advantage for spread sellers.",
     body: [
       "Every option has an exercise style — the rules that govern when the buyer can use their right.",
-      "American-style options can be exercised at any time before expiration. If you sell a covered call on MU and the stock surges, the buyer can exercise their right to buy your shares immediately — not just at expiration. This creates assignment risk that you need to monitor.",
+      "American-style options can be exercised at any time before expiration. If you sell a covered call on MU and the stock surges, the buyer can exercise their right to buy your shares immediately — not just at expiration. This creates assignment risk you need to monitor.",
       "European-style options can only be exercised at expiration. They cannot be exercised early under any circumstances. This means no surprise assignments. No waking up to find your shares called away. You manage the position on your schedule, not the buyer's.",
-      "Most single stock and ETF options (MU, RTX, QQQ, SPY) are American style.",
-      "Most index options (RUT, SPX, XSP, RUTW) are European style.",
+      "Most single stock and ETF options (MU, RTX, QQQ, SPY) are American style. Most index options (RUT, SPX, XSP, RUTW) are European style.",
       "This is one of the primary reasons the Spread Therapy framework prefers index options. Beyond the tax advantage, European style means clean, predictable management — no early assignment risk, ever.",
     ],
   },
@@ -75,13 +75,12 @@ const SECTIONS = [
     id: "assignment_prob",
     eyebrow: "A Common Fear",
     title: "Will I Get Assigned?",
-    pullquote: "Assignment before expiration is rare. Here is when it actually happens — and when it almost never does.",
+    pullquote: "For the strategies in this framework — selling options 5%+ out of the money with 30+ days to expiration — early assignment is not a practical concern.",
     body: [
-      "New options sellers often fear assignment. They imagine selling a covered call and having their shares yanked away at the worst possible moment.",
-      "Here is the reality: early assignment on out-of-the-money options is extremely rare. Consider this scenario — you sold a covered call on a stock with a $510 strike, 45 days to expiration, and the stock is currently at $500. Are you likely to get assigned?",
-      "Almost certainly not. Here is why: the buyer paid a premium for that call. If they exercise it now, they buy your shares at $510 — but the stock is only worth $500. They would immediately lose money. A rational buyer never exercises an out-of-the-money option early.",
-      "Early assignment almost only happens in two specific situations: first, when a call is deep in the money and the remaining time value is nearly zero — the buyer has nothing to lose by exercising. Second, around ex-dividend dates on American-style options, when capturing the dividend is worth more than the remaining time value.",
-      "For the strategies in this framework — selling options that are at least 5% out of the money with 30 or more days to expiration — early assignment is not a practical concern. If you use index options, it is impossible.",
+      "New options sellers often fear assignment. They imagine selling a covered call and having their shares yanked away at the worst possible moment. Here is the short answer: in this framework, it almost never happens. If you use index options, it is contractually impossible.",
+      "Here is why. You sold a covered call with a $510 strike, 45 days to expiration, and the stock is currently at $500. The buyer paid a premium for that call. If they exercise it now, they buy your shares at $510 — but the stock is only worth $500. They immediately lose money. A rational buyer never exercises an out-of-the-money option early.",
+      "Early assignment almost only happens in two specific situations: when a call is deep in the money and the remaining time value is nearly zero, or around ex-dividend dates on American-style options when capturing the dividend is worth more than the remaining time value.",
+      "Neither situation applies to the strategies in this framework. You sell options at least 5% out of the money with 30 or more days to expiration. The time value alone makes early exercise irrational.",
     ],
   },
   {
@@ -90,21 +89,35 @@ const SECTIONS = [
     title: "Delta Tells You the Odds",
     body: [
       "Delta is formally defined as how much the option price changes when the underlying moves by $1. But it has a second meaning that is more useful for spread sellers: delta approximates the probability that the option expires in the money.",
-      "A delta of 0.20 on a short put means roughly a 20% chance the stock falls below your strike by expiration. Equivalently, it means roughly an 80% probability of profit.",
-      "This is why the Spread Therapy framework uses delta as its primary hard stop. A short put with delta above 0.25 has less than 75% probability of profit — not enough margin for the risk being taken.",
-      "When you choose a strike, you are choosing your probability of success. A 0.15 delta gives you an 85% chance. A 0.10 delta gives you a 90% chance. The tradeoff is premium — lower probability of loss means lower premium collected.",
-      "The framework targets the 0.15 to 0.20 delta range as the sweet spot: high enough probability to sleep well, low enough to collect meaningful premium.",
+      "A concrete example: MU is trading at $120 and you sell the $110 put at 0.16 delta. That delta tells you there is roughly a 16% chance MU falls below $110 by expiration — and an 84% chance it does not. You collect the premium and keep it 84% of the time.",
+      "This is why the Spread Therapy framework uses delta as its primary strike selection tool. A short put with delta above 0.25 has less than 75% probability of profit — not enough margin for the risk being taken.",
+      "When you choose a strike, you are choosing your probability of success. The framework targets the 0.15 to 0.20 delta range: high enough probability to sleep well, low enough to collect meaningful premium.",
     ],
   },
   {
     id: "expiration",
     eyebrow: "Time",
-    title: "Expiration and Time Decay",
+    title: "The Pleasant Impermanence",
+    pullquote: "Not everything has to last forever. And temporary things are less costly.",
     body: [
-      "Every option has an expiration date. After that date, the option is worthless if it has not been exercised. This expiration is what creates time value — and time value is what option sellers harvest.",
-      "An option's price has two components: intrinsic value (how far in the money it is) and time value (the possibility that it could move further). As expiration approaches, time value decays. This decay — theta — is the seller's daily income.",
-      "Time decay is not linear. It accelerates in the final weeks before expiration. An option with 45 days left loses value slowly at first, then faster and faster. This is why the framework closes positions at 50% profit or at 21 days to expiration — both capture the best part of the decay curve without the elevated risk near expiration.",
-      "You do not have to wait for expiration. Most options positions are closed well before then. You opened by selling, so you close by buying back — at a lower price if the trade went your way.",
+      "Every option has an expiration date. After that date, the contract ceases to exist. This is one of the most important differences between options and stocks — and one of the least discussed.",
+      "Stocks create the illusion of permanence. Liquidity makes it feel like you can sell anything at any time. But sometimes ownership is more permanent than you planned. You hold something too long because you are too attached to it, or because selling triggers consequences you are not ready for.",
+      "Options end on a date you chose. You enter a position knowing exactly when it expires. You are not married to it. You do not have to decide when to leave — the leaving is built into the structure.",
+      "This temporality has a practical consequence: temporary things are less costly. An option costs a fraction of what the underlying stock costs. You can participate in the movement of a $500 stock for $3. You can generate income from a $200,000 index position with $2,000 of collateral.",
+      "Time decay — theta — is the mechanical expression of this impermanence. As expiration approaches, the option's time value erodes. For buyers, this is a cost. For sellers, it is income. Every day that passes without the stock breaching your strike, the option is worth less — and since you sold it, less is better.",
+      "Time decay accelerates in the final weeks before expiration. The framework's management rules — closing at 50% profit and at 21 DTE — are designed to capture the favorable part of the decay curve while avoiding the elevated risk that comes with holding positions too close to expiration.",
+    ],
+  },
+  {
+    id: "naked_covered",
+    eyebrow: "The Bridge to Spreads",
+    title: "Covered, Naked, and Why Spreads Exist",
+    body: [
+      "A covered call is an option sold against shares you already own. If you own 100 shares of RTX and sell a call, the worst case is that your shares get called away at the strike price. You are covered — the shares back the obligation.",
+      "A naked option is sold without that backing. A naked put obligates you to buy shares if the stock falls to the strike. A naked call — selling a call without owning the shares — has theoretically unlimited risk if the stock surges.",
+      "Spreads solve the naked risk problem. Instead of selling an option with unlimited or very large risk, you simultaneously buy a cheaper option further out of the money. This purchased option caps your maximum loss at the difference between the two strikes.",
+      "The Spread Therapy framework strongly prefers covered positions and defined-risk spreads. Not because naked options are always wrong, but because spreads use far less collateral, cap your maximum loss precisely, and let you run multiple positions simultaneously.",
+      "Module 3 covers spreads in full detail — how they work, why they are superior for most traders, and how to construct them.",
     ],
   },
   {
@@ -122,24 +135,40 @@ const SECTIONS = [
 ];
 
 const NEXT_MODULES = [
-  { id: "spreads", label: "Module 3", title: "Spreads", desc: "Why spreads beat naked options on every dimension that matters." },
-  { id: "pricing", label: "Module 6", title: "Pricing & Control", desc: "What your position is worth and how to read it in real time." },
-  { id: "quiz", label: "Assessment", title: "Take the Quiz", desc: "Test your options knowledge before your next trade." },
+  { id: "spreads", label: "Module 3", title: "Spreads", desc: "Why spreads beat naked options on every dimension that matters.", recommended: true },
+  { id: "pricing", label: "Module 6", title: "Pricing & Control", desc: "What your position is worth and how to read it in real time.", recommended: false },
+  { id: "quiz", label: "Assessment", title: "Take the Quiz", desc: "Test your options knowledge before your next trade.", recommended: false },
 ];
 
 function useReadingProgress() {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
+    let raf;
     const update = () => {
       const el = document.documentElement;
       const scrollTop = el.scrollTop || document.body.scrollTop;
       const scrollHeight = el.scrollHeight - el.clientHeight;
       setProgress(scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0);
     };
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(() => { update(); raf = null; }); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return progress;
+}
+
+function useSectionProgress() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const refs = useRef([]);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => { entries.forEach(entry => { if (entry.isIntersecting) { const idx = refs.current.indexOf(entry.target); if (idx >= 0) setActiveIndex(idx); } }); },
+      { threshold: 0.3 }
+    );
+    refs.current.forEach(el => { if (el) obs.observe(el); });
+    return () => obs.disconnect();
+  }, []);
+  return { activeIndex, refs };
 }
 
 function FadeSection({ children, delay = 0 }) {
@@ -154,68 +183,48 @@ function FadeSection({ children, delay = 0 }) {
     return () => obs.disconnect();
   }, []);
   return (
-    <div ref={ref} style={{
-      opacity: visible ? 1 : 0,
-      transform: visible ? "translateY(0)" : "translateY(20px)",
-      transition: `opacity 0.65s ease ${delay}ms, transform 0.65s ease ${delay}ms`,
-    }}>
+    <div ref={ref} style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: `opacity 0.65s ease ${delay}ms, transform 0.65s ease ${delay}ms` }}>
       {children}
     </div>
   );
 }
 
-export default function SpreadTherapyOptions() {
+export default function Module02({ onBack, onNavigate }) {
   const progress = useReadingProgress();
-  const [selectedNext, setSelectedNext] = useState(null);
-  const [activeCallout, setActiveCallout] = useState(null);
+  const { activeIndex, refs } = useSectionProgress();
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "#09090d",
-      color: "#e8e4df",
-      fontFamily: "'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif",
-      maxWidth: 680,
-      margin: "0 auto",
-      position: "relative",
-    }}>
+    <div className="st-options" style={{ minHeight: "100vh", background: "#09090d", color: "#e8e4df", fontFamily: "'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif", maxWidth: 680, margin: "0 auto", position: "relative" }}>
 
-      {/* Progress bar */}
-      <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, zIndex: 100, background: "rgba(255,255,255,0.04)" }}>
+      <div role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin={0} aria-valuemax={100} aria-label="Reading progress" style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, zIndex: 100, background: "rgba(255,255,255,0.04)" }}>
         <div style={{ height: "100%", background: "#06b6d4", width: `${progress}%`, transition: "width 0.1s linear" }} />
       </div>
 
-      {/* Module pill */}
-      <div style={{
-        position: "fixed", top: 16, right: 16, zIndex: 99,
-        background: "rgba(12,12,18,0.92)", backdropFilter: "blur(12px)",
-        border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, padding: "6px 14px",
-        display: "flex", alignItems: "center", gap: 8,
-      }}>
-        <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#06b6d4" }} />
-        <span style={{ fontSize: 10, color: "#06b6d4", letterSpacing: 2 }}>MODULE 02</span>
+      <div style={{ position: "fixed", top: 16, left: 16, right: 16, zIndex: 99, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        {onBack && (
+          <button onClick={onBack} aria-label="Back to Learn Hub" style={{ background: "rgba(12,12,18,0.92)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, padding: "6px 14px", cursor: "pointer", color: "#06b6d4", fontSize: 12, fontFamily: "inherit", letterSpacing: 1 }}>← Back</button>
+        )}
+        <div style={{ background: "rgba(12,12,18,0.92)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, padding: "6px 14px", display: "flex", alignItems: "center", gap: 8, marginLeft: "auto" }}>
+          <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#06b6d4" }} />
+          <span style={{ fontSize: 10, color: "#06b6d4", letterSpacing: 2 }}>MODULE 02</span>
+        </div>
       </div>
 
-      {/* Hero */}
       <div style={{ padding: "80px 32px 64px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         <FadeSection>
-          <div style={{ fontSize: 10, color: "#06b6d4", letterSpacing: 4, textTransform: "uppercase", marginBottom: 20 }}>
-            Spread Therapy · Options
-          </div>
+          <div style={{ fontSize: 10, color: "#06b6d4", letterSpacing: 4, textTransform: "uppercase", marginBottom: 20 }}>Spread Therapy · Options</div>
         </FadeSection>
         <FadeSection delay={100}>
-          <h1 style={{ fontSize: "clamp(36px, 8vw, 56px)", fontWeight: "normal", lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 24, color: "#f5f1eb" }}>
-            Options
-          </h1>
+          <h1 style={{ fontSize: "clamp(36px, 8vw, 56px)", fontWeight: "normal", lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 24, color: "#f5f1eb" }}>Options</h1>
         </FadeSection>
         <FadeSection delay={200}>
           <p style={{ fontSize: 18, color: "#777", lineHeight: 1.7, fontStyle: "italic", maxWidth: 480, borderLeft: "2px solid rgba(6,182,212,0.3)", paddingLeft: 20 }}>
-            A contract between two people. One has a right. The other has an obligation. And someone gets paid.
+            Ownership, freedom, and obligation — three different relationships with the same thing.
           </p>
         </FadeSection>
         <FadeSection delay={300}>
           <div style={{ display: "flex", gap: 20, marginTop: 32, flexWrap: "wrap" }}>
-            {[["10 min read", "◷"], ["Module 2 of 7", "◎"], ["Foundation", "◈"]].map(([label, icon]) => (
+            {[["12 min read", "◷"], ["Module 2 of 7", "◎"], ["Foundation", "◈"]].map(([label, icon]) => (
               <div key={label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <span style={{ fontSize: 11, color: "#444" }}>{icon}</span>
                 <span style={{ fontSize: 11, color: "#444", letterSpacing: 1 }}>{label}</span>
@@ -225,43 +234,51 @@ export default function SpreadTherapyOptions() {
         </FadeSection>
       </div>
 
-      {/* Quick reference cards */}
+      {/* Three relationships visual */}
       <FadeSection>
-        <div style={{ padding: "32px 32px 0", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+        <div style={{ padding: "32px 32px 0", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+          {[
+            { label: "Ownership", icon: "◈", desc: "Responsibility. The thing is yours.", color: "#22c55e" },
+            { label: "Freedom", icon: "◎", desc: "The right to choose. Not yet committed.", color: "#06b6d4" },
+            { label: "Obligation", icon: "◉", desc: "A job. You get paid to take it on.", color: "#c9a84c" },
+          ].map(r => (
+            <div key={r.label} style={{ padding: "18px 14px", background: `${r.color}08`, border: `1px solid ${r.color}20`, borderRadius: 10, textAlign: "center" }}>
+              <div style={{ fontSize: 24, color: r.color, marginBottom: 8 }}>{r.icon}</div>
+              <div style={{ fontSize: 11, color: r.color, letterSpacing: 1, marginBottom: 6 }}>{r.label}</div>
+              <div style={{ fontSize: 11, color: "#555", lineHeight: 1.4 }}>{r.desc}</div>
+            </div>
+          ))}
+        </div>
+      </FadeSection>
+
+      {/* Call/Put reference */}
+      <FadeSection>
+        <div style={{ padding: "20px 32px 0", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
           {[
             { label: "CALL", color: "#22c55e", buy: "Right to BUY at strike", sell: "Obligation to SELL at strike", bullbear: "Buy = Bullish · Sell = Neutral/Bearish" },
             { label: "PUT", color: "#ef4444", buy: "Right to SELL at strike", sell: "Obligation to BUY at strike", bullbear: "Buy = Bearish · Sell = Neutral/Bullish" },
           ].map(card => (
             <div key={card.label} style={{ background: `${card.color}08`, border: `1px solid ${card.color}25`, borderRadius: 12, padding: 16 }}>
               <div style={{ fontSize: 11, color: card.color, letterSpacing: 3, marginBottom: 12 }}>{card.label}</div>
-              <div style={{ fontSize: 11, color: "#888", marginBottom: 6 }}>
-                <span style={{ color: "#555" }}>Buy: </span>{card.buy}
-              </div>
-              <div style={{ fontSize: 11, color: "#888", marginBottom: 10 }}>
-                <span style={{ color: "#555" }}>Sell: </span>{card.sell}
-              </div>
+              <div style={{ fontSize: 11, color: "#888", marginBottom: 6 }}><span style={{ color: "#555" }}>Buy: </span>{card.buy}</div>
+              <div style={{ fontSize: 11, color: "#888", marginBottom: 10 }}><span style={{ color: "#555" }}>Sell: </span>{card.sell}</div>
               <div style={{ fontSize: 10, color: card.color, borderTop: `1px solid ${card.color}20`, paddingTop: 8 }}>{card.bullbear}</div>
             </div>
           ))}
         </div>
       </FadeSection>
 
-      {/* Content */}
       <div style={{ padding: "0 32px 80px" }}>
         {SECTIONS.map((section, si) => (
           <FadeSection key={section.id} delay={si * 40}>
-            <div style={{ padding: "48px 0", borderBottom: si < SECTIONS.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
+            <div ref={el => refs.current[si] = el} style={{ padding: "48px 0", borderBottom: si < SECTIONS.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
 
               {section.eyebrow && (
-                <div style={{ fontSize: 10, color: "#06b6d4", letterSpacing: 3, textTransform: "uppercase", marginBottom: 14 }}>
-                  {section.eyebrow}
-                </div>
+                <div style={{ fontSize: 10, color: "#06b6d4", letterSpacing: 3, textTransform: "uppercase", marginBottom: 14 }}>{section.eyebrow}</div>
               )}
 
               {section.title !== "Options" && (
-                <h2 style={{ fontSize: "clamp(20px, 4vw, 28px)", fontWeight: "normal", lineHeight: 1.2, letterSpacing: "-0.01em", color: "#f0ede8", marginBottom: 24 }}>
-                  {section.title}
-                </h2>
+                <h2 style={{ fontSize: "clamp(20px, 4vw, 28px)", fontWeight: "normal", lineHeight: 1.2, letterSpacing: "-0.01em", color: "#f0ede8", marginBottom: 24 }}>{section.title}</h2>
               )}
 
               {section.pullquote && (
@@ -276,7 +293,6 @@ export default function SpreadTherapyOptions() {
                 ))}
               </div>
 
-              {/* Assignment probability interactive */}
               {section.id === "assignment_prob" && (
                 <FadeSection delay={100}>
                   <div style={{ marginTop: 28, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 12, padding: 20 }}>
@@ -285,7 +301,7 @@ export default function SpreadTherapyOptions() {
                       { scenario: "5%+ OTM, 30+ DTE, American style", risk: "Very Low", color: "#22c55e", pct: 5, note: "Buyer loses money exercising early" },
                       { scenario: "Near the money, 5–10 DTE, American style", risk: "Moderate", color: "#f59e0b", pct: 45, note: "Time value nearly gone — monitor closely" },
                       { scenario: "Deep ITM, near ex-dividend date", risk: "High", color: "#ef4444", pct: 80, note: "Dividend capture makes early exercise rational" },
-                      { scenario: "Any position, European style (RUT/XSP)", risk: "Zero", color: "#06b6d4", pct: 0, note: "Early assignment is contractually impossible" },
+                      { scenario: "Any position, European style (RUT/XSP/RUTW)", risk: "Zero", color: "#06b6d4", pct: 0, note: "Early assignment is contractually impossible" },
                     ].map((row, i) => (
                       <div key={i} style={{ marginBottom: 14 }}>
                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
@@ -293,7 +309,7 @@ export default function SpreadTherapyOptions() {
                           <span style={{ fontSize: 11, color: row.color, fontFamily: "monospace" }}>{row.risk}</span>
                         </div>
                         <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 2, height: 3, marginBottom: 4 }}>
-                          <div style={{ background: row.color, height: 3, width: `${row.pct}%`, borderRadius: 2 }} />
+                          <div style={{ background: row.color, height: 3, width: `${Math.max(row.pct, 1)}%`, borderRadius: 2 }} />
                         </div>
                         <div style={{ fontSize: 10, color: "#444" }}>{row.note}</div>
                       </div>
@@ -302,7 +318,6 @@ export default function SpreadTherapyOptions() {
                 </FadeSection>
               )}
 
-              {/* Delta probability table */}
               {section.id === "delta_prob" && (
                 <FadeSection delay={100}>
                   <div style={{ marginTop: 28, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 12, overflow: "hidden" }}>
@@ -331,27 +346,24 @@ export default function SpreadTherapyOptions() {
                 </FadeSection>
               )}
 
-              {/* CTA */}
               {section.cta && (
                 <div style={{ marginTop: 44 }}>
-                  <div style={{ fontSize: 10, color: "#555", letterSpacing: 2, textTransform: "uppercase", marginBottom: 18 }}>Where would you like to go next?</div>
+                  <div style={{ fontSize: 10, color: "#555", letterSpacing: 2, textTransform: "uppercase", marginBottom: 18 }}>Continue to the next module</div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                     {NEXT_MODULES.map(mod => (
-                      <button key={mod.id} onClick={() => setSelectedNext(mod.id)} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 20px", borderRadius: 10, cursor: "pointer", background: selectedNext === mod.id ? "rgba(6,182,212,0.08)" : "rgba(255,255,255,0.02)", border: `1px solid ${selectedNext === mod.id ? "rgba(6,182,212,0.35)" : "rgba(255,255,255,0.06)"}`, textAlign: "left", fontFamily: "inherit", transition: "all 0.18s" }}>
+                      <button key={mod.id} onClick={() => onNavigate?.(mod.id)} aria-label={`Go to ${mod.title}`} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 20px", borderRadius: 10, cursor: "pointer", background: mod.recommended ? "rgba(6,182,212,0.08)" : "rgba(255,255,255,0.02)", border: `1px solid ${mod.recommended ? "rgba(6,182,212,0.35)" : "rgba(255,255,255,0.06)"}`, textAlign: "left", fontFamily: "inherit", transition: "all 0.18s", outline: "none", width: "100%" }}>
                         <div>
-                          <div style={{ fontSize: 9, color: selectedNext === mod.id ? "#06b6d4" : "#444", letterSpacing: 2, marginBottom: 4 }}>{mod.label}</div>
-                          <div style={{ fontSize: 15, color: selectedNext === mod.id ? "#f0ede8" : "#888" }}>{mod.title}</div>
+                          <div style={{ fontSize: 9, color: mod.recommended ? "#06b6d4" : "#444", letterSpacing: 2, marginBottom: 4 }}>{mod.label}{mod.recommended && " · RECOMMENDED"}</div>
+                          <div style={{ fontSize: 15, color: mod.recommended ? "#f0ede8" : "#888" }}>{mod.title}</div>
                           <div style={{ fontSize: 11, color: "#444", marginTop: 3 }}>{mod.desc}</div>
                         </div>
-                        <span style={{ fontSize: 18, color: selectedNext === mod.id ? "#06b6d4" : "#333" }}>→</span>
+                        <span style={{ fontSize: 18, color: mod.recommended ? "#06b6d4" : "#333" }}>→</span>
                       </button>
                     ))}
                   </div>
-                  {selectedNext && (
-                    <button style={{ width: "100%", marginTop: 14, padding: "15px", background: "rgba(6,182,212,0.1)", border: "1px solid rgba(6,182,212,0.3)", borderRadius: 10, color: "#06b6d4", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}>
-                      Continue →
-                    </button>
-                  )}
+                  <p style={{ fontSize: 11, color: "#444", marginTop: 14, fontStyle: "italic" }}>
+                    Most readers continue to Module 3. Module 6 is useful if you want to understand pricing mechanics first.
+                  </p>
                 </div>
               )}
             </div>
@@ -359,30 +371,22 @@ export default function SpreadTherapyOptions() {
         ))}
       </div>
 
-      {/* Side progress */}
       <div style={{ position: "fixed", left: "max(16px, calc(50% - 380px))", top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 6, opacity: 0.3 }}>
         {SECTIONS.map((s, i) => (
-          <div key={s.id} style={{ width: 3, height: progress > (i / SECTIONS.length) * 100 ? 18 : 7, background: "#06b6d4", borderRadius: 2, transition: "height 0.3s ease", opacity: progress > (i / SECTIONS.length) * 100 ? 1 : 0.3 }} />
+          <div key={s.id} style={{ width: 3, height: i <= activeIndex ? 18 : 7, background: "#06b6d4", borderRadius: 2, transition: "height 0.3s ease", opacity: i <= activeIndex ? 1 : 0.3 }} />
         ))}
       </div>
 
-      {/* Footer */}
       <div style={{ padding: "24px 32px", borderTop: "1px solid rgba(255,255,255,0.04)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ fontSize: 9, color: "#222", letterSpacing: 2 }}>SPREAD THERAPY · MODULE 02</div>
         <div style={{ fontSize: 9, color: "#222" }}>Not financial advice</div>
       </div>
 
       <style>{`
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        .st-options * { box-sizing: border-box; }
+        .st-options p, .st-options h1, .st-options h2, .st-options button { margin: 0; }
+        .st-options button:focus-visible { outline: 2px solid #06b6d4; outline-offset: 2px; }
         html { scroll-behavior: smooth; }
-        body { background: #09090d; }
-        p, h1, h2, button { margin: 0; }
-        button { outline: none; }
-        @media (max-width: 600px) {
-          div[style*="padding: 80px 32px"] { padding: 56px 20px 48px !important; }
-          div[style*="padding: 0 32px 80px"] { padding: 0 20px 60px !important; }
-          div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
-        }
       `}</style>
     </div>
   );
