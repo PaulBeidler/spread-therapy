@@ -433,6 +433,7 @@ function Login({onLogin}){
 
 export default function App(){
   const [session,setSession]=useState(null);
+  const [userRole,setUserRole]=useState(null);
   const [authLoading,setAuthLoading]=useState(true);
   const [screen,setScreen]=useState("home");
   const [selectedCampaign,setSelectedCampaign]=useState(null);
@@ -440,55 +441,89 @@ export default function App(){
   const [activeModule,setActiveModule]=useState(null);
 
   useEffect(()=>{
-    supabase.auth.getSession().then(({data:{session}})=>{setSession(session);setAuthLoading(false);});
-    const{data:{subscription}}=supabase.auth.onAuthStateChange((_event,session)=>{setSession(session);});
+    supabase.auth.getSession().then(async({data:{session}})=>{
+      setSession(session);
+      if(session){
+        const{data}=await supabase.from("profiles").select("role").eq("id",session.user.id).single();
+        setUserRole(data?.role||"user");
+      }
+      setAuthLoading(false);
+    });
+    const{data:{subscription}}=supabase.auth.onAuthStateChange(async(_event,session)=>{
+      setSession(session);
+      if(session){
+        const{data}=await supabase.from("profiles").select("role").eq("id",session.user.id).single();
+        setUserRole(data?.role||"user");
+      } else {
+        setUserRole(null);
+      }
+    });
     return()=>subscription.unsubscribe();
   },[]);
 
-  const handleLogout=async()=>{await supabase.auth.signOut();setNavTab("home");setActiveModule(null);};
+  const handleLogout=async()=>{
+    await supabase.auth.signOut();
+    setUserRole(null);
+    setNavTab(userRole==="admin"?"home":"learn");
+    setActiveModule(null);
+  };
 
   if(authLoading)return<div style={{minHeight:"100vh",background:T.bg,display:"flex",alignItems:"center",justifyContent:"center"}}><div style={{fontSize:11,color:T.dim,letterSpacing:3}}>LOADING...</div></div>;
   if(!session)return<Login onLogin={()=>{}}/>;
+
+  // Guest/user: redirect away from dashboard
+  const isAdmin=userRole==="admin";
+  const effectiveTab=(!isAdmin&&navTab==="home")?"learn":navTab;
 
   const handleSelectCampaign=(c)=>{setSelectedCampaign(c);setScreen("detail");};
   const handleBack=()=>{setScreen("home");setSelectedCampaign(null);};
   const handleModuleBack=()=>setActiveModule(null);
 
-  if(screen==="detail"&&selectedCampaign)return<div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"Georgia,serif",maxWidth:480,margin:"0 auto"}}><CampaignDetail c={selectedCampaign} onBack={handleBack}/></div>;
+  if(screen==="detail"&&selectedCampaign&&isAdmin)return<div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"Georgia,serif",maxWidth:480,margin:"0 auto"}}><CampaignDetail c={selectedCampaign} onBack={handleBack}/></div>;
 
   const handleNavigate=(id)=>{
     if(id==="quiz"){setNavTab("quiz");setActiveModule(null);}
     else{setActiveModule(id);}
   };
-  if(navTab==="learn"&&activeModule==="getting-started")return<Module00 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
-  if(navTab==="learn"&&activeModule==="stocks")return<Module01 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
-  if(navTab==="learn"&&activeModule==="options")return<Module02 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
-  if(navTab==="learn"&&activeModule==="spreads")return<Module03 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
-  if(navTab==="learn"&&activeModule==="together")return<Module04 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
-  if(navTab==="learn"&&activeModule==="margin")return<Module05 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
-  if(navTab==="learn"&&activeModule==="pricing")return<Module06 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
-  if(navTab==="learn"&&activeModule==="philosophy")return<Module07 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(effectiveTab==="learn"&&activeModule==="getting-started")return<Module00 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(effectiveTab==="learn"&&activeModule==="stocks")return<Module01 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(effectiveTab==="learn"&&activeModule==="options")return<Module02 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(effectiveTab==="learn"&&activeModule==="spreads")return<Module03 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(effectiveTab==="learn"&&activeModule==="together")return<Module04 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(effectiveTab==="learn"&&activeModule==="margin")return<Module05 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(effectiveTab==="learn"&&activeModule==="pricing")return<Module06 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+  if(effectiveTab==="learn"&&activeModule==="philosophy")return<Module07 onBack={handleModuleBack} onNavigate={handleNavigate}/>;
+
+  // Nav tabs: admin sees all 4, guest/user sees Learn, Quiz, Coach only
+  const navTabs=isAdmin
+    ?[["home","◉","Dashboard"],["quiz","◎","Quiz"],["learn","◈","Learn"],["coach","◆","Coach"]]
+    :[["learn","◈","Learn"],["quiz","◎","Quiz"],["coach","◆","Coach"]];
+
+  const tabLabel={home:"Dashboard",quiz:"Knowledge Assessment",learn:"Learn Hub",coach:"Coach"};
 
   return(
     <div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"Georgia,serif",maxWidth:480,margin:"0 auto"}}>
       <div style={{padding:"16px 20px 12px",borderBottom:`1px solid ${T.border}`,position:"sticky",top:0,zIndex:20,background:"rgba(12,12,16,0.96)",backdropFilter:"blur(12px)",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
         <div>
           <div style={{fontSize:9,color:T.gold,letterSpacing:4,textTransform:"uppercase",marginBottom:2}}>Spread Therapy</div>
-          <div style={{fontSize:15,fontWeight:"bold"}}>{navTab==="home"?"Dashboard":navTab==="quiz"?"Knowledge Assessment":navTab==="learn"?"Learn Hub":"Coach"}</div>
+          <div style={{fontSize:15,fontWeight:"bold"}}>{tabLabel[effectiveTab]||"Learn Hub"}</div>
         </div>
-        <button onClick={handleLogout} style={{background:"none",border:"none",color:T.dim,fontSize:11,cursor:"pointer",fontFamily:"Georgia,serif"}}>Sign out</button>
+        <div style={{display:"flex",alignItems:"center",gap:12}}>
+          {isAdmin&&<span style={{fontSize:9,color:T.gold,background:T.goldDim,border:`1px solid ${T.goldBorder}`,padding:"2px 8px",borderRadius:8,letterSpacing:1}}>ADMIN</span>}
+          <button onClick={handleLogout} style={{background:"none",border:"none",color:T.dim,fontSize:11,cursor:"pointer",fontFamily:"Georgia,serif"}}>Sign out</button>
+        </div>
       </div>
       <div>
-        {navTab==="home"&&<Dashboard onSelectCampaign={handleSelectCampaign}/>}
-        {navTab==="quiz"&&<Quiz/>}
-        {navTab==="learn"&&<LearnHub onSelectModule={setActiveModule}/>}
-        {navTab==="coach"&&<Coach/>}
+        {effectiveTab==="home"&&isAdmin&&<Dashboard onSelectCampaign={handleSelectCampaign}/>}
+        {effectiveTab==="quiz"&&<Quiz/>}
+        {effectiveTab==="learn"&&<LearnHub onSelectModule={setActiveModule}/>}
+        {effectiveTab==="coach"&&<Coach userRole={userRole}/>}
       </div>
       <div style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:480,background:"rgba(12,12,16,0.97)",backdropFilter:"blur(12px)",borderTop:`1px solid ${T.border}`,display:"flex",justifyContent:"space-around",padding:"10px 0 14px"}}>
-        {[["home","◉","Dashboard"],["quiz","◎","Quiz"],["learn","◈","Learn"],["coach","◆","Coach"]].map(([id,icon,label])=>(
+        {navTabs.map(([id,icon,label])=>(
           <button key={id} onClick={()=>{setNavTab(id);if(id!=="learn")setActiveModule(null);}} style={{background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:3,padding:"4px 16px"}}>
-            <span style={{fontSize:16,color:navTab===id?T.gold:T.dim}}>{icon}</span>
-            <span style={{fontSize:9,letterSpacing:1,color:navTab===id?T.gold:T.dim}}>{label.toUpperCase()}</span>
+            <span style={{fontSize:16,color:effectiveTab===id?T.gold:T.dim}}>{icon}</span>
+            <span style={{fontSize:9,letterSpacing:1,color:effectiveTab===id?T.gold:T.dim}}>{label.toUpperCase()}</span>
           </button>
         ))}
       </div>
